@@ -1,0 +1,42 @@
+{
+  "name": "wdmg/yii2-news",
+  "description": "News manager",
+  "keywords": ["yii2", "yii2-news", "news", "wdmg"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.1",
+  "homepage": "https://github.com/wdmg/yii2-news",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-news",
+    "issues": "https://github.com/wdmg/yii2-news/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.20",
+    "wdmg/yii2-base": "^1.0.1",
+    "wdmg/yii2-selectinput": "^1.0.5",
+    "wdmg/yii2-editor": "^1.0.6"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "wdmg\\news\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin",
+      "newsRoute": "/news",
+      "newsLayout": "@app/views/layouts/main"
+    }
+  }
+}
