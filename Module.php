@@ -6,7 +6,7 @@ namespace wdmg\news;
  * Yii2 News
  *
  * @category        Module
- * @version         1.0.0
+ * @version         1.0.1
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-news
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -46,7 +46,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.0";
+    private $version = "1.0.1";
 
     /**
      * @var integer, priority of initialization
@@ -107,19 +107,25 @@ class Module extends BaseModule
             $app->getUrlManager()->addRules([
                 [
                     'pattern' => '/<news:[\w-]+>',
-                    'route' => 'admin/news/default/index',
+                    'route' => 'admin/news/default/view',
                     'suffix' => ''
                 ],
-                '/<news:[\w-]+>' => 'admin/news/default/index',
+                '/<news:[\w-]+>' => 'admin/news/default/view',
             ], true);
         } else {
             $app->getUrlManager()->addRules([
                 [
-                    'pattern' => $newsRoute . '/<news:[\w-]+>',
+                    'pattern' => $newsRoute,
                     'route' => 'admin/news/default/index',
                     'suffix' => ''
                 ],
-                $newsRoute . '/<news:[\w-]+>' => 'admin/news/default/index',
+                [
+                    'pattern' => $newsRoute . '/<news:[\w-]+>',
+                    'route' => 'admin/news/default/view',
+                    'suffix' => ''
+                ],
+                $newsRoute => 'admin/news/default/index',
+                $newsRoute . '/<news:[\w-]+>' => 'admin/news/default/view',
             ], true);
         }
     }

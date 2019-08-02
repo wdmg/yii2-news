@@ -105,20 +105,20 @@ class News extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app/modules/pages', 'ID'),
-            'name' => Yii::t('app/modules/pages', 'Name'),
-            'alias' => Yii::t('app/modules/pages', 'Alias'),
-            'excerpt' => Yii::t('app/modules/pages', 'Excerpt'),
-            'content' => Yii::t('app/modules/pages', 'Content'),
-            'title' => Yii::t('app/modules/pages', 'Title'),
-            'description' => Yii::t('app/modules/pages', 'Description'),
-            'keywords' => Yii::t('app/modules/pages', 'Keywords'),
-            'status' => Yii::t('app/modules/pages', 'Status'),
-            'source' => Yii::t('app/modules/pages', 'Source'),
-            'created_at' => Yii::t('app/modules/pages', 'Created at'),
-            'created_by' => Yii::t('app/modules/pages', 'Created by'),
-            'updated_at' => Yii::t('app/modules/pages', 'Updated at'),
-            'updated_by' => Yii::t('app/modules/pages', 'Updated by'),
+            'id' => Yii::t('app/modules/news', 'ID'),
+            'name' => Yii::t('app/modules/news', 'Name'),
+            'alias' => Yii::t('app/modules/news', 'Alias'),
+            'excerpt' => Yii::t('app/modules/news', 'Excerpt'),
+            'content' => Yii::t('app/modules/news', 'News text'),
+            'title' => Yii::t('app/modules/news', 'Title'),
+            'description' => Yii::t('app/modules/news', 'Description'),
+            'keywords' => Yii::t('app/modules/news', 'Keywords'),
+            'status' => Yii::t('app/modules/news', 'Status'),
+            'source' => Yii::t('app/modules/news', 'Source'),
+            'created_at' => Yii::t('app/modules/news', 'Created at'),
+            'created_by' => Yii::t('app/modules/news', 'Created by'),
+            'updated_at' => Yii::t('app/modules/news', 'Updated at'),
+            'updated_by' => Yii::t('app/modules/news', 'Updated by'),
         ];
     }
 
@@ -164,7 +164,7 @@ class News extends ActiveRecord
      * @param $withScheme boolean, absolute or relative URL
      * @return string or null
      */
-    public function getPageUrl($withScheme = true)
+    public function getPostUrl($withScheme = true)
     {
         $this->route = $this->getRoute();
         if (isset($this->alias)) {

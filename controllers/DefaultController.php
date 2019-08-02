@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use wdmg\news\models\News;
+use yii\data\ActiveDataProvider;
 
 /**
  * DefaultController implements actions for News model.
@@ -33,11 +34,33 @@ class DefaultController extends Controller
      * @return mixed
      * @see News::$alias
      */
-    public function actionIndex($news)
+    public function actionIndex()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => News::find(),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+        return $this->render('index', [
+            'route' => $route,
+            'dataProvider' => $dataProvider,
+            'model' => $model
+        ]);
+    }
+
+    /**
+     * View of news item.
+     *
+     * @param string $news aliases of searching news.
+     * @return mixed
+     * @see News::$alias
+     */
+    public function actionView($news)
     {
 
         // Search page model with alias
-        $model = $this->findModel($page);
+        $model = $this->findModel($news);
         $route = $model->getRoute();
 
         // Check probably need redirect to new URL
@@ -46,9 +69,9 @@ class DefaultController extends Controller
                 return Yii::$app->redirects->check(Yii::$app->request->getUrl());
         }
 
-        // Separate route from page alias from request URL
+        // Separate route from request URL
         if (is_null($route) && preg_match('/^([\/]+[A-Za-z0-9_\-\_\/]+[\/])*([A-Za-z0-9_\-\_]*)/i', Yii::$app->request->url,$matches)) {
-            if ($page == $matches[2])
+            if ($news == $matches[2])
                 $route = rtrim($matches[1], '/');
         }
 
@@ -56,7 +79,7 @@ class DefaultController extends Controller
         if (empty($route))
             $route = '/';
 
-        return $this->render('index', [
+        return $this->render('view', [
             'route' => $route,
             'model' => $model
         ]);
