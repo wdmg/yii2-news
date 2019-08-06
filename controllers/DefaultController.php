@@ -56,11 +56,11 @@ class DefaultController extends Controller
      * @return mixed
      * @see News::$alias
      */
-    public function actionView($news)
+    public function actionView($alias)
     {
 
         // Search page model with alias
-        $model = $this->findModel($news);
+        $model = $this->findModel($alias);
         $route = $model->getRoute();
 
         // Check probably need redirect to new URL
@@ -71,7 +71,7 @@ class DefaultController extends Controller
 
         // Separate route from request URL
         if (is_null($route) && preg_match('/^([\/]+[A-Za-z0-9_\-\_\/]+[\/])*([A-Za-z0-9_\-\_]*)/i', Yii::$app->request->url,$matches)) {
-            if ($news == $matches[2])
+            if ($alias == $matches[2])
                 $route = rtrim($matches[1], '/');
         }
 

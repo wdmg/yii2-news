@@ -114,11 +114,11 @@ class Module extends BaseModule
         if (empty($newsRoute) || $newsRoute == "/") {
             $app->getUrlManager()->addRules([
                 [
-                    'pattern' => '/<news:[\w-]+>',
+                    'pattern' => '/<alias:[\w-]+>',
                     'route' => 'admin/news/default/view',
                     'suffix' => ''
                 ],
-                '/<news:[\w-]+>' => 'admin/news/default/view',
+                '/<alias:[\w-]+>' => 'admin/news/default/view',
             ], true);
         } else {
             $app->getUrlManager()->addRules([
@@ -128,12 +128,12 @@ class Module extends BaseModule
                     'suffix' => ''
                 ],
                 [
-                    'pattern' => $newsRoute . '/<news:[\w-]+>',
+                    'pattern' => $newsRoute . '/<alias:[\w-]+>',
                     'route' => 'admin/news/default/view',
                     'suffix' => ''
                 ],
                 $newsRoute => 'admin/news/default/index',
-                $newsRoute . '/<news:[\w-]+>' => 'admin/news/default/view',
+                $newsRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
             ], true);
         }
     }
