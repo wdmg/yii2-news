@@ -25,12 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function($model) {
                     $output = Html::tag('strong', $model->name);
-                    if (($pageURL = $model->getPostUrl()) && $model->id)
-                        $output .= '<br/>' . Html::a($pageURL, $pageURL, [
-                                'target' => '_blank',
-                                'data-pjax' => 0
-                            ]);
-
+                    if (($postURL = $model->getPostUrl(true, true)) && $model->id) {
+                        $output .= '<br/>' . Html::a($model->getPostUrl(true, false), $postURL, [
+                            'target' => '_blank',
+                            'data-pjax' => 0
+                        ]);
+                    }
                     return $output;
                 }
             ],

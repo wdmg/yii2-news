@@ -18,11 +18,17 @@ use wdmg\widgets\SelectInput;
         ]); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?php
-        if (($pageURL = $model->getPostUrl()) && $model->id)
-            echo  Html::tag('label', Yii::t('app/modules/news', 'News URL')) . Html::tag('fieldset', Html::a($pageURL, $pageURL, [
-                    'target' => '_blank',
-                    'data-pjax' => 0
-                ])) . '<br/>';
+            $output = '';
+            if (($postURL = $model->getPostUrl(true, true)) && $model->id) {
+                $output = Html::a($model->getPostUrl(true, false), $postURL, [
+                        'target' => '_blank',
+                        'data-pjax' => 0
+                    ]);
+            }
+
+            if (!empty($output))
+                echo Html::tag('label', Yii::t('app/modules/news', 'News URL')) . Html::tag('fieldset', $output) . '<br/>';
+
         ?>
         <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'excerpt')->textarea(['rows' => 3]) ?>

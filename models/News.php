@@ -178,11 +178,15 @@ class News extends ActiveRecord
      * @param $withScheme boolean, absolute or relative URL
      * @return string or null
      */
-    public function getPostUrl($withScheme = true)
+    public function getPostUrl($withScheme = true, $realUrl = false)
     {
         $this->route = $this->getRoute();
         if (isset($this->alias)) {
-            return \yii\helpers\Url::to($this->route . '/' .$this->alias, $withScheme);
+            if ($this->status == self::POST_STATUS_DRAFT && $realUrl)
+                return \yii\helpers\Url::to(['default/view', 'alias' => $this->alias, 'draft' => 'true'], $withScheme);
+            else
+                return \yii\helpers\Url::to($this->route . '/' .$this->alias, $withScheme);
+
         } else {
             return null;
         }

@@ -53,14 +53,15 @@ class DefaultController extends Controller
      * View of news item.
      *
      * @param string $news aliases of searching news.
+     * @param boolean $draft flag of status searching news.
      * @return mixed
      * @see News::$alias
      */
-    public function actionView($alias)
+    public function actionView($alias, $draft = false)
     {
 
         // Search page model with alias
-        $model = $this->findModel($alias);
+        $model = $this->findModel($alias, $draft);
         $route = $model->getRoute();
 
         // Check probably need redirect to new URL
@@ -93,11 +94,16 @@ class DefaultController extends Controller
      * @return Page model
      * @throws NotFoundHttpException if the model not exist or not published
      */
-    protected function findModel($alias)
+    protected function findModel($alias, $isDraft = false)
     {
+
+        $status = News::POST_STATUS_PUBLISHED;
+        if ($isDraft)
+            $status = News::POST_STATUS_DRAFT;
+
         $model = News::find()->where([
             'alias' => $alias,
-            'status' => 1,
+            'status' => $status,
         ])->one();
 
         if (!is_null($model))

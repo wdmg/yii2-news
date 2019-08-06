@@ -63,6 +63,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [in progress development]
-* v.1.0.2 - Added news image and thumbnails
+* v.1.0.2 - Added news image and thumbnails, draft view from backend
 * v.1.0.1 - Added module views and updating controllers
 * v.1.0.0 - Added models, controllers and base views
