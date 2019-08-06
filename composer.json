@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-news", "news", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/wdmg/yii2-news",
   "support": {
     "source": "https://github.com/wdmg/yii2-news",
@@ -36,7 +36,8 @@
     "options": {
       "routePrefix": "admin",
       "newsRoute": "/news",
-      "newsLayout": "@app/views/layouts/main"
+      "newsLayout": "@app/views/layouts/main",
+      "newsImagePath": "/uploads/news"
     }
   }
 }

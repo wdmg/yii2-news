@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('app/modules/news', 'Edit');
 </div>
 <div class="news-update">
     <?= $this->render('_form', [
+        'module' => $module,
         'model' => $model,
         'statusModes' => $model->getStatusesList(),
     ]); ?>

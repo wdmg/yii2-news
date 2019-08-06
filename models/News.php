@@ -18,6 +18,7 @@ use yii\behaviors\SluggableBehavior;
  * @property int $id
  * @property string $name
  * @property string $alias
+ * @property string $image_src
  * @property string $excerpt
  * @property string $content
  * @property string $title
@@ -87,6 +88,7 @@ class News extends ActiveRecord
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
             [['excerpt', 'title', 'description', 'keywords'], 'string', 'max' => 255],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['status'], 'boolean'],
             ['alias', 'unique', 'message' => Yii::t('app/modules/pages', 'Param attribute must be unique.')],
             ['alias', 'match', 'pattern' => '/^[A-Za-z0-9\-\_]+$/', 'message' => Yii::t('app/modules/pages','It allowed only Latin alphabet, numbers and the «-», «_» characters.')],
@@ -108,6 +110,7 @@ class News extends ActiveRecord
             'id' => Yii::t('app/modules/news', 'ID'),
             'name' => Yii::t('app/modules/news', 'Name'),
             'alias' => Yii::t('app/modules/news', 'Alias'),
+            'image' => Yii::t('app/modules/news', 'Image'),
             'excerpt' => Yii::t('app/modules/news', 'Excerpt'),
             'content' => Yii::t('app/modules/news', 'News text'),
             'title' => Yii::t('app/modules/news', 'Title'),
@@ -134,7 +137,7 @@ class News extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
     public function getStatusesList($allStatuses = false)
     {
@@ -157,6 +160,17 @@ class News extends ActiveRecord
     public function getRoute()
     {
         return Yii::$app->controller->module->newsRoute;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePath($absoluteUrl = false)
+    {
+        if ($absoluteUrl)
+            return \yii\helpers\Url::to(str_replace('\\', '/', Yii::$app->controller->module->newsImagePath), true);
+        else
+            return Yii::$app->controller->module->newsImagePath;
     }
 
     /**
@@ -183,5 +197,20 @@ class News extends ActiveRecord
             return $this->hasOne(\wdmg\users\models\Users::className(), ['id' => 'created_by']);
         else
             return null;
+    }
+
+
+    public function upload($image)
+    {
+        $path = Yii::getAlias('@webroot') . $this->getImagePath();
+        if ($image) {
+            // Create the folder if not exist
+            if (\yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true)) {
+                $fileName = $image->baseName . '.' . $image->extension;
+                if ($image->saveAs($path . '/' . $fileName))
+                    return $fileName;
+            }
+        }
+        return false;
     }
 }

@@ -24,6 +24,8 @@ class m190730_020217_news extends Migration
             'name' => $this->string(128)->notNull(),
             'alias' => $this->string(128)->notNull(),
 
+            'image' => $this->string(255)->null(),
+
             'excerpt' => $this->string(255)->null(),
             'content' => $this->text()->null(),
 

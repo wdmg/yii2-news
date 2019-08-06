@@ -34,6 +34,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $output;
                 }
             ],
+            [
+                'attribute' => 'image',
+                'format' => 'html',
+                'value' => function($model) {
+                    if ($model->image) {
+                        return '<div style="width:50%;">' . Html::img($model->getImagePath(true) . '/' . $model->image, ['class' => 'img-responsive']) . '</div>';
+                    } else {
+                        return null;
+                    }
+                }
+            ],
             'title:ntext',
             [
                 'attribute' => 'content',

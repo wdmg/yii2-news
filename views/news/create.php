@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="news-create">
     <?= $this->render('_form', [
+        'module' => $module,
         'model' => $model,
         'statusModes' => $model->getStatusesList(),
     ]); ?>

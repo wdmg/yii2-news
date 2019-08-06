@@ -6,7 +6,7 @@ namespace wdmg\news;
  * Yii2 News
  *
  * @category        Module
- * @version         1.0.1
+ * @version         1.0.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-news
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -46,7 +46,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.1";
+    private $version = "1.0.2";
 
     /**
      * @var integer, priority of initialization
@@ -59,9 +59,14 @@ class Module extends BaseModule
     public $newsRoute = "/news";
 
     /**
-     * @var string, the default layout to rendered news
+     * @var string, the default layout to render news
      */
     public $newsLayout = "@app/views/layouts/main";
+
+    /**
+     * @var string, the default path to save news thumbnails in @webroot
+     */
+    public $newsImagePath = "/uploads/news";
 
     /**
      * {@inheritdoc}
@@ -78,6 +83,9 @@ class Module extends BaseModule
 
         // Process and normalize route for pages in frontend
         $this->newsRoute = self::normalizeRoute($this->newsRoute);
+
+        // Normalize path to image folder
+        $this->newsImagePath = \yii\helpers\FileHelper::normalizePath($this->newsImagePath);
     }
 
     /**
@@ -128,5 +136,32 @@ class Module extends BaseModule
                 $newsRoute . '/<news:[\w-]+>' => 'admin/news/default/view',
             ], true);
         }
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function install()
+    {
+        parent::install();
+        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        if (\yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function uninstall()
+    {
+        parent::uninstall();
+        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        if (\yii\helpers\FileHelper::removeDirectory($path))
+            return true;
+        else
+            return false;
     }
 }

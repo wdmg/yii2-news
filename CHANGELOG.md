@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.2 (2019-08-06)
+ * Added news image and thumbnails
+ 
 ## 1.0.1 (2019-08-02)
  * Added module views and updating controllers
 

@@ -100,6 +100,13 @@ class NewsController extends Controller
         } else {
             if ($model->load(Yii::$app->request->post())) {
 
+                // Get image thumbnail
+                $imageFile = \yii\web\UploadedFile::getInstance($model, 'image');
+                if ($imageSRC = $model->upload($imageFile))
+                    $model->image = $imageSRC;
+                else
+                    $model->image = null;
+
                 if($model->save())
                     Yii::$app->getSession()->setFlash(
                         'success',
@@ -150,6 +157,13 @@ class NewsController extends Controller
 
                 // Get new URL for saved news item
                 $newPostUrl = $model->getPostUrl(false);
+
+                // Get image thumbnail
+                $imageFile = \yii\web\UploadedFile::getInstance($model, 'image');
+                if ($imageSRC = $model->upload($imageFile))
+                    $model->image = $imageSRC;
+                else
+                    $model->image = null;
 
                 if($model->save()) {
 

@@ -30,6 +30,18 @@ use wdmg\widgets\SelectInput;
             'options' => [],
             'pluginOptions' => []
         ]) ?>
+
+        <?php
+            if ($model->image) {
+                echo '<div class="row">';
+                echo '<div class="col-xs-12 col-sm-3 col-md-2">' . Html::img($model->getImagePath(true) . '/' . $model->image, ['class' => 'img-responsive']) . '</div>';
+                echo '<div class="col-xs-12 col-sm-9 col-md-10">' . $form->field($model, 'image')->fileInput() . '</div>';
+                echo '</div><br/>';
+            } else {
+                echo $form->field($model, 'image')->fileInput();
+            }
+        ?>
+
         <?= $form->field($model, 'title')->textInput() ?>
         <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
         <?= $form->field($model, 'keywords')->textarea(['rows' => 3]) ?>

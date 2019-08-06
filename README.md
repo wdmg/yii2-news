@@ -41,7 +41,8 @@ To add a module to the project, add the following data in your configuration fil
             'class' => 'wdmg\news\Module',
             'routePrefix' => 'admin',
             'newsRoute'  => '/news', // route for frontend (string or array), use "/" - for root
-            'newsLayout' => '@app/views/layouts/main' // path to default layout for render in frontend
+            'newsLayout' => '@app/views/layouts/main', // the default layout to render news
+            'newsImagePath' => '/uploads/news' // the default path to save news thumbnails in @webroot
         ],
         ...
     ],
@@ -62,6 +63,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [in progress development]
+* v.1.0.2 - Added news image and thumbnails
 * v.1.0.1 - Added module views and updating controllers
 * v.1.0.0 - Added models, controllers and base views
-* v.0.0.1 - Added base module, migrations, controller and translations
