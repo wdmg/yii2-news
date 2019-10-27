@@ -62,7 +62,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
         ]);
     ?>
 
-# Status and version [in progress development]
+# Status and version [ready to use]
+* v.1.0.3 - Added hasMany for Users, some translations
 * v.1.0.2 - Added news image and thumbnails, draft view from backend
 * v.1.0.1 - Added module views and updating controllers
-* v.1.0.0 - Added models, controllers and base views

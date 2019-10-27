@@ -33,4 +33,7 @@ return [
     'All news' => "Все новости",
     'Updating news: {name}' => "Редактирование новости: {name}",
     'View news item' => "Просмотр новости",
+
+    'No news available' => "Нет доступных для отображения новостей",
+    'An error occurred while retrieving the news list' => "Произошла ошибка при получении списка новостей",
 ];

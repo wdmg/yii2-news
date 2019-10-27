@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.3 (2019-10-28)
+ * Added hasMany for Users, some translations
+
 ## 1.0.2 (2019-08-06)
  * Added draft view from backend
  * Added news image and thumbnails
