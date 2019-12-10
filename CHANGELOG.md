@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.4 (2019-12-10)
+ * Fixed deprecated class declaration
+
 ## 1.0.3 (2019-10-28)
  * Added hasMany for Users, some translations
 

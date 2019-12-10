@@ -52,7 +52,7 @@ class News extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'class' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
@@ -60,12 +60,12 @@ class News extends ActiveRecord
                 'value' => new Expression('NOW()'),
             ],
             'blameable' => [
-                'class' => BlameableBehavior::className(),
+                'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
             ],
             'sluggable' =>  [
-                'class' => SluggableBehavior::className(),
+                'class' => SluggableBehavior::class,
                 'attribute' => ['name'],
                 'slugAttribute' => 'alias',
                 'ensureUnique' => true,
@@ -198,7 +198,7 @@ class News extends ActiveRecord
     public function getUser()
     {
         if(class_exists('\wdmg\users\models\Users'))
-            return $this->hasOne(\wdmg\users\models\Users::className(), ['id' => 'created_by']);
+            return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'created_by']);
         else
             return null;
     }
@@ -209,7 +209,7 @@ class News extends ActiveRecord
     public function getUsers()
     {
         if(class_exists('\wdmg\users\models\Users'))
-            return $this->hasMany(\wdmg\users\models\Users::className(), ['id' => 'created_by']);
+            return $this->hasMany(\wdmg\users\models\Users::class, ['id' => 'created_by']);
         else
             return null;
     }
