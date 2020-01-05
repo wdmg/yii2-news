@@ -6,7 +6,7 @@ namespace wdmg\news;
  * Yii2 News
  *
  * @category        Module
- * @version         1.0.4
+ * @version         1.0.5
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-news
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -46,7 +46,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.4";
+    private $version = "1.0.5";
 
     /**
      * @var integer, priority of initialization

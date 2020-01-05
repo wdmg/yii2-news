@@ -34,6 +34,10 @@ return [
     'Updating news: {name}' => "Редактирование новости: {name}",
     'View news item' => "Просмотр новости",
 
+    'Sitemap' => "Карта сайта",
+    '- display in the sitemap' => "- отображать в карте сайта",
+    'In sitemap?' => "В карте сайта?",
+
     'No news available' => "Нет доступных для отображения новостей",
     'An error occurred while retrieving the news list' => "Произошла ошибка при получении списка новостей",
 ];

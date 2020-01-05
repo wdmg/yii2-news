@@ -37,6 +37,8 @@ class News extends ActiveRecord
     const POST_STATUS_DRAFT = 0; // News post has draft
     const POST_STATUS_PUBLISHED = 1; // News post has been published
 
+    public $url;
+
     /**
      * {@inheritdoc}
      */
@@ -89,7 +91,7 @@ class News extends ActiveRecord
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
             [['excerpt', 'title', 'description', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-            [['status'], 'boolean'],
+            [['in_sitemap', 'status'], 'boolean'],
             ['alias', 'unique', 'message' => Yii::t('app/modules/pages', 'Param attribute must be unique.')],
             ['alias', 'match', 'pattern' => '/^[A-Za-z0-9\-\_]+$/', 'message' => Yii::t('app/modules/pages','It allowed only Latin alphabet, numbers and the «-», «_» characters.')],
             [['source', 'created_at', 'updated_at'], 'safe'],
@@ -101,6 +103,7 @@ class News extends ActiveRecord
 
         return $rules;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -116,6 +119,7 @@ class News extends ActiveRecord
             'title' => Yii::t('app/modules/news', 'Title'),
             'description' => Yii::t('app/modules/news', 'Description'),
             'keywords' => Yii::t('app/modules/news', 'Keywords'),
+            'in_sitemap' => Yii::t('app/modules/news', 'In sitemap?'),
             'status' => Yii::t('app/modules/news', 'Status'),
             'source' => Yii::t('app/modules/news', 'Source'),
             'created_at' => Yii::t('app/modules/news', 'Created at'),
@@ -134,6 +138,18 @@ class News extends ActiveRecord
             $this->source = serialize($this->source);
 
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        if (is_null($this->url))
+            $this->url = $this->getUrl();
+
     }
 
     /**
@@ -159,7 +175,18 @@ class News extends ActiveRecord
      */
     public function getRoute()
     {
-        return Yii::$app->controller->module->newsRoute;
+
+        if (isset(Yii::$app->params["news.newsRoute"])) {
+            $newsRoute = Yii::$app->params["news.newsRoute"];
+        } else {
+
+            if (!$module = Yii::$app->getModule('admin/news'))
+                $module = Yii::$app->getModule('news');
+
+            $newsRoute = $module->newsRoute;
+        }
+
+        return $newsRoute;
     }
 
     /**
@@ -167,10 +194,22 @@ class News extends ActiveRecord
      */
     public function getImagePath($absoluteUrl = false)
     {
+
+        if (isset(Yii::$app->params["news.newsImagePath"])) {
+            $newsImagePath = Yii::$app->params["news.newsImagePath"];
+        } else {
+
+            if (!$module = Yii::$app->getModule('admin/news'))
+                $module = Yii::$app->getModule('news');
+
+            $newsImagePath = $module->newsImagePath;
+        }
+
         if ($absoluteUrl)
-            return \yii\helpers\Url::to(str_replace('\\', '/', Yii::$app->controller->module->newsImagePath), true);
+            return \yii\helpers\Url::to(str_replace('\\', '/', $newsImagePath), true);
         else
-            return Yii::$app->controller->module->newsImagePath;
+            return $newsImagePath;
+
     }
 
     /**
@@ -228,4 +267,40 @@ class News extends ActiveRecord
         }
         return false;
     }
+
+    /**
+     * Returns published news
+     *
+     * @param null $cond sampling conditions
+     * @param bool $asArray flag if necessary to return as an array
+     * @return array|ActiveRecord|null
+     */
+    public function getPublished($cond = null, $asArray = false) {
+        if (!is_null($cond) && is_array($cond))
+            $models = self::find()->where(ArrayHelper::merge($cond, ['status' => self::POST_STATUS_PUBLISHED]));
+        elseif (!is_null($cond) && is_string($cond))
+            $models = self::find()->where(ArrayHelper::merge([$cond], ['status' => self::POST_STATUS_PUBLISHED]));
+        else
+            $models = self::find()->where(['status' => self::POST_STATUS_PUBLISHED]);
+
+        if ($asArray)
+            return $models->asArray()->all();
+        else
+            return $models->all();
+
+    }
+
+    /**
+     * Returns the URL to the view of the current model
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        if ($this->url === null)
+            $this->url = $this->getPostUrl();
+
+        return $this->url;
+    }
+
 }
