@@ -36,8 +36,19 @@ return [
 
     'Sitemap' => "Карта сайта",
     '- display in the sitemap' => "- отображать в карте сайта",
+    'Yandex turbo' => "Яндекс турбо",
+    '- display in the turbo-pages' => "- отображать в турбо-страницах",
+    'RSS-feed' => "RSS-лента",
+    '- display in the rss-feed' => "- отображать в rss-ленте",
     'In sitemap?' => "В карте сайта?",
+    'Yandex turbo-pages?' => "Яндекс турбо-страницы?",
+    'In RSS-feed?' => "В RSS-ленте?",
+    'Google AMP' => "Google AMP",
+    'Google AMP?' => "Google AMP?",
+    '- display in the AMP pages' => "- отображать в AMP страницах",
 
     'No news available' => "Нет доступных для отображения новостей",
     'An error occurred while retrieving the news list' => "Произошла ошибка при получении списка новостей",
+
+
 ];

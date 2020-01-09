@@ -58,6 +58,18 @@ use wdmg\widgets\SelectInput;
             ->checkbox(['label' => Yii::t('app/modules/news', '- display in the sitemap')])
             ->label(Yii::t('app/modules/news', 'Sitemap'))
         ?>
+        <?= $form->field($model, 'in_rss', [
+            'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+        ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the rss-feed')])->label(Yii::t('app/modules/news', 'RSS-feed'))
+        ?>
+        <?= $form->field($model, 'in_turbo', [
+            'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+        ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the turbo-pages')])->label(Yii::t('app/modules/news', 'Yandex turbo'))
+        ?>
+        <?= $form->field($model, 'in_amp', [
+            'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+        ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the AMP pages')])->label(Yii::t('app/modules/news', 'Google AMP'))
+        ?>
 
         <?= $form->field($model, 'status')->widget(SelectInput::class, [
             'items' => $statusModes,

@@ -63,6 +63,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.0.6 - Added support for RSS-feed, Yandex.Turbo and Google AMP modules
 * v.1.0.5 - Added support for Sitemap module
 * v.1.0.4 - Fixed deprecated class declaration
-* v.1.0.3 - Added hasMany for Users, some translations

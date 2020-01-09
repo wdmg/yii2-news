@@ -24,7 +24,11 @@ use yii\behaviors\SluggableBehavior;
  * @property string $title
  * @property string $description
  * @property string $keywords
- * @property integer $status
+ * @property boolean $in_sitemap
+ * @property boolean $in_rss
+ * @property boolean $in_turbo
+ * @property boolean $in_amp
+ * @property boolean $status
  * @property array $source
  * @property string $created_at
  * @property integer $created_by
@@ -91,7 +95,7 @@ class News extends ActiveRecord
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
             [['excerpt', 'title', 'description', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-            [['in_sitemap', 'status'], 'boolean'],
+            [['status', 'in_sitemap', 'in_rss', 'in_turbo', 'in_amp'], 'boolean'],
             ['alias', 'unique', 'message' => Yii::t('app/modules/pages', 'Param attribute must be unique.')],
             ['alias', 'match', 'pattern' => '/^[A-Za-z0-9\-\_]+$/', 'message' => Yii::t('app/modules/pages','It allowed only Latin alphabet, numbers and the «-», «_» characters.')],
             [['source', 'created_at', 'updated_at'], 'safe'],
@@ -120,6 +124,9 @@ class News extends ActiveRecord
             'description' => Yii::t('app/modules/news', 'Description'),
             'keywords' => Yii::t('app/modules/news', 'Keywords'),
             'in_sitemap' => Yii::t('app/modules/news', 'In sitemap?'),
+            'in_rss' => Yii::t('app/modules/news', 'In RSS-feed?'),
+            'in_turbo' => Yii::t('app/modules/news', 'Yandex turbo-pages?'),
+            'in_amp' => Yii::t('app/modules/news', 'Google AMP?'),
             'status' => Yii::t('app/modules/news', 'Status'),
             'source' => Yii::t('app/modules/news', 'Source'),
             'created_at' => Yii::t('app/modules/news', 'Created at'),
@@ -282,6 +289,26 @@ class News extends ActiveRecord
             $models = self::find()->where(ArrayHelper::merge([$cond], ['status' => self::POST_STATUS_PUBLISHED]));
         else
             $models = self::find()->where(['status' => self::POST_STATUS_PUBLISHED]);
+
+        if ($asArray)
+            return $models->asArray()->all();
+        else
+            return $models->all();
+
+    }
+
+    /**
+     * Returns all news (draft and published)
+     *
+     * @param null $cond sampling conditions
+     * @param bool $asArray flag if necessary to return as an array
+     * @return array|ActiveRecord|null
+     */
+    public function getAll($cond = null, $asArray = false) {
+        if (!is_null($cond))
+            $models = self::find()->where($cond);
+        else
+            $models = self::find();
 
         if ($asArray)
             return $models->asArray()->all();

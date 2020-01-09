@@ -6,7 +6,7 @@ namespace wdmg\news;
  * Yii2 News
  *
  * @category        Module
- * @version         1.0.5
+ * @version         1.0.6
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-news
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -46,7 +46,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.5";
+    private $version = "1.0.6";
 
     /**
      * @var integer, priority of initialization
@@ -54,7 +54,7 @@ class Module extends BaseModule
     private $priority = 4;
 
     /**
-     * @var string or array, the default routes to rendered news (use "/" - for root)
+     * @var string the default routes to rendered news (use "/" - for root)
      */
     public $newsRoute = "/news";
 
@@ -81,7 +81,7 @@ class Module extends BaseModule
         // Set priority of current module
         $this->setPriority($this->priority);
 
-        // Process and normalize route for pages in frontend
+        // Process and normalize route for news in frontend
         $this->newsRoute = self::normalizeRoute($this->newsRoute);
 
         // Normalize path to image folder

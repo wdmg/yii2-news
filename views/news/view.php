@@ -63,6 +63,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'in_rss',
+                'format' => 'html',
+                'value' => function($data) {
+                    if ($data->in_rss)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
+                'attribute' => 'in_turbo',
+                'format' => 'html',
+                'value' => function($data) {
+                    if ($data->in_turbo)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
+                'attribute' => 'in_amp',
+                'format' => 'html',
+                'value' => function($data) {
+                    if ($data->in_amp)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
                 'attribute' => 'status',
                 'format' => 'html',
                 'value' => function($data) {

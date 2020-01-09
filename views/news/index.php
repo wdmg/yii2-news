@@ -109,6 +109,54 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'in_rss',
+                'format' => 'html',
+                'headerOptions' => [
+                    'class' => 'text-center'
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ],
+                'value' => function($data) {
+                    if ($data->in_rss)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
+                'attribute' => 'in_turbo',
+                'format' => 'html',
+                'headerOptions' => [
+                    'class' => 'text-center'
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ],
+                'value' => function($data) {
+                    if ($data->in_turbo)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
+                'attribute' => 'in_amp',
+                'format' => 'html',
+                'headerOptions' => [
+                    'class' => 'text-center'
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ],
+                'value' => function($data) {
+                    if ($data->in_amp)
+                        return '<span class="fa fa-check text-success"></span>';
+                    else
+                        return '<span class="fa fa-remove text-danger"></span>';
+                }
+            ],
+            [
                 'attribute' => 'status',
                 'format' => 'html',
                 'filter' => SelectInput::widget([
