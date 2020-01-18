@@ -12,7 +12,7 @@ class m200106_161822_news2rss extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%news}}', 'in_rss', $this->boolean()->defaultValue(true));
+        $this->addColumn('{{%news}}', 'in_rss', $this->boolean()->defaultValue(true)->after('source'));
 
     }
 

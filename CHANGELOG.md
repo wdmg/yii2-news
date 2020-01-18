@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.7 (2020-01-18)
+ * Image save bugfix
+ 
 ## 1.0.6 (2020-01-10)
  * Added support for RSS-feed, Yandex.Turbo and Google AMP modules
  

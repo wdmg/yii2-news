@@ -98,14 +98,12 @@ class NewsController extends Controller
                 return $this->asJson(['success' => $success, 'alias' => $model->alias, 'errors' => $model->errors]);
             }
         } else {
-            if ($model->load(Yii::$app->request->post())) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
                 // Get image thumbnail
-                $imageFile = \yii\web\UploadedFile::getInstance($model, 'image');
-                if ($imageSRC = $model->upload($imageFile))
-                    $model->image = $imageSRC;
-                else
-                    $model->image = null;
+                $image = \yii\web\UploadedFile::getInstance($model, 'file');
+                if ($src = $model->upload($image))
+                    $model->image = $src;
 
                 if($model->save())
                     Yii::$app->getSession()->setFlash(
@@ -159,13 +157,12 @@ class NewsController extends Controller
                 $newPostUrl = $model->getPostUrl(false);
 
                 // Get image thumbnail
-                $imageFile = \yii\web\UploadedFile::getInstance($model, 'image');
-                if ($imageSRC = $model->upload($imageFile))
-                    $model->image = $imageSRC;
-                else
-                    $model->image = null;
+                $image = \yii\web\UploadedFile::getInstance($model, 'file');
+                if ($src = $model->upload($image))
+                    $model->image = $src;
 
-                if($model->save()) {
+
+                if ($model->save()) {
 
                     // Set 301-redirect from old URL to new
                     if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::POST_STATUS_PUBLISHED)) {

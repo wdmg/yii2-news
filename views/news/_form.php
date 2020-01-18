@@ -14,7 +14,10 @@ use wdmg\widgets\SelectInput;
     <div class="news-form">
         <?php $form = ActiveForm::begin([
             'id' => "addNewsForm",
-            'enableAjaxValidation' => true
+            'enableAjaxValidation' => true,
+            'options' => [
+                'enctype' => 'multipart/form-data'
+            ]
         ]); ?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?php
@@ -41,10 +44,10 @@ use wdmg\widgets\SelectInput;
             if ($model->image) {
                 echo '<div class="row">';
                 echo '<div class="col-xs-12 col-sm-3 col-md-2">' . Html::img($model->getImagePath(true) . '/' . $model->image, ['class' => 'img-responsive']) . '</div>';
-                echo '<div class="col-xs-12 col-sm-9 col-md-10">' . $form->field($model, 'image')->fileInput() . '</div>';
+                echo '<div class="col-xs-12 col-sm-9 col-md-10">' . $form->field($model, 'file')->fileInput() . '</div>';
                 echo '</div><br/>';
             } else {
-                echo $form->field($model, 'image')->fileInput();
+                echo $form->field($model, 'file')->fileInput();
             }
         ?>
 

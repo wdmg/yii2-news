@@ -41,6 +41,7 @@ class News extends ActiveRecord
     const POST_STATUS_DRAFT = 0; // News post has draft
     const POST_STATUS_PUBLISHED = 1; // News post has been published
 
+    public $file;
     public $url;
 
     /**
@@ -93,15 +94,15 @@ class News extends ActiveRecord
             [['name', 'alias', 'content'], 'required'],
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
             [['name', 'alias'], 'string', 'min' => 3, 'max' => 128],
-            [['excerpt', 'title', 'description', 'keywords'], 'string', 'max' => 255],
-            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['excerpt', 'title', 'description', 'keywords', 'image'], 'string', 'max' => 255],
+            [['file'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 1, 'extensions' => 'png, jpg'],
             [['status', 'in_sitemap', 'in_rss', 'in_turbo', 'in_amp'], 'boolean'],
             ['alias', 'unique', 'message' => Yii::t('app/modules/pages', 'Param attribute must be unique.')],
             ['alias', 'match', 'pattern' => '/^[A-Za-z0-9\-\_]+$/', 'message' => Yii::t('app/modules/pages','It allowed only Latin alphabet, numbers and the «-», «_» characters.')],
             [['source', 'created_at', 'updated_at'], 'safe'],
         ];
 
-        if(class_exists('\wdmg\users\models\Users') && isset(Yii::$app->modules['users'])) {
+        if (class_exists('\wdmg\users\models\Users')) {
             $rules[] = [['created_by', 'updated_by'], 'required'];
         }
 
@@ -118,6 +119,7 @@ class News extends ActiveRecord
             'name' => Yii::t('app/modules/news', 'Name'),
             'alias' => Yii::t('app/modules/news', 'Alias'),
             'image' => Yii::t('app/modules/news', 'Image'),
+            'file' => Yii::t('app/modules/news', 'Image file'),
             'excerpt' => Yii::t('app/modules/news', 'Excerpt'),
             'content' => Yii::t('app/modules/news', 'News text'),
             'title' => Yii::t('app/modules/news', 'Title'),
@@ -141,7 +143,7 @@ class News extends ActiveRecord
      */
     public function beforeSave($insert)
     {
-        if(is_array($this->source))
+        if (is_array($this->source))
             $this->source = serialize($this->source);
 
         return parent::beforeSave($insert);
@@ -243,7 +245,7 @@ class News extends ActiveRecord
      */
     public function getUser()
     {
-        if(class_exists('\wdmg\users\models\Users'))
+        if (class_exists('\wdmg\users\models\Users'))
             return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'created_by']);
         else
             return null;
@@ -254,15 +256,18 @@ class News extends ActiveRecord
      */
     public function getUsers()
     {
-        if(class_exists('\wdmg\users\models\Users'))
+        if (class_exists('\wdmg\users\models\Users'))
             return $this->hasMany(\wdmg\users\models\Users::class, ['id' => 'created_by']);
         else
             return null;
     }
 
 
-    public function upload($image)
+    public function upload($image = null)
     {
+        if (!$image)
+            return false;
+
         $path = Yii::getAlias('@webroot') . $this->getImagePath();
         if ($image) {
             // Create the folder if not exist

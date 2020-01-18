@@ -12,7 +12,7 @@ class m200105_205517_news2sitemap extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%news}}', 'in_sitemap', $this->boolean()->defaultValue(true));
+        $this->addColumn('{{%news}}', 'in_sitemap', $this->boolean()->defaultValue(true)->after('source'));
 
     }
 
