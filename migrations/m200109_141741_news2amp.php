@@ -12,7 +12,9 @@ class m200109_141741_news2amp extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%news}}', 'in_amp', $this->boolean()->defaultValue(true)->after('source'));
+
+        if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_amp')))
+            $this->addColumn('{{%news}}', 'in_amp', $this->boolean()->defaultValue(true)->after('source'));
 
     }
 

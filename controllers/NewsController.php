@@ -165,7 +165,7 @@ class NewsController extends Controller
                 if ($model->save()) {
 
                     // Set 301-redirect from old URL to new
-                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::POST_STATUS_PUBLISHED)) {
+                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::STATUS_PUBLISHED)) {
                         // @TODO: remove old redirects
                         Yii::$app->redirects->set('news', $oldPostUrl, $newPostUrl, 301);
                     }

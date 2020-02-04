@@ -38,8 +38,8 @@ use yii\behaviors\SluggableBehavior;
 class News extends ActiveRecord
 {
     public $route;
-    const POST_STATUS_DRAFT = 0; // News post has draft
-    const POST_STATUS_PUBLISHED = 1; // News post has been published
+    const STATUS_DRAFT = 0; // News post has draft
+    const STATUS_PUBLISHED = 1; // News post has been published
 
     public $file;
     public $url;
@@ -169,13 +169,13 @@ class News extends ActiveRecord
         if($allStatuses)
             return [
                 '*' => Yii::t('app/modules/news', 'All statuses'),
-                self::POST_STATUS_DRAFT => Yii::t('app/modules/news', 'Draft'),
-                self::POST_STATUS_PUBLISHED => Yii::t('app/modules/news', 'Published'),
+                self::STATUS_DRAFT => Yii::t('app/modules/news', 'Draft'),
+                self::STATUS_PUBLISHED => Yii::t('app/modules/news', 'Published'),
             ];
         else
             return [
-                self::POST_STATUS_DRAFT => Yii::t('app/modules/news', 'Draft'),
-                self::POST_STATUS_PUBLISHED => Yii::t('app/modules/news', 'Published'),
+                self::STATUS_DRAFT => Yii::t('app/modules/news', 'Draft'),
+                self::STATUS_PUBLISHED => Yii::t('app/modules/news', 'Published'),
             ];
     }
 
@@ -230,7 +230,7 @@ class News extends ActiveRecord
     {
         $this->route = $this->getRoute();
         if (isset($this->alias)) {
-            if ($this->status == self::POST_STATUS_DRAFT && $realUrl)
+            if ($this->status == self::STATUS_DRAFT && $realUrl)
                 return \yii\helpers\Url::to(['default/view', 'alias' => $this->alias, 'draft' => 'true'], $withScheme);
             else
                 return \yii\helpers\Url::to($this->route . '/' .$this->alias, $withScheme);
@@ -289,11 +289,11 @@ class News extends ActiveRecord
      */
     public function getPublished($cond = null, $asArray = false) {
         if (!is_null($cond) && is_array($cond))
-            $models = self::find()->where(ArrayHelper::merge($cond, ['status' => self::POST_STATUS_PUBLISHED]));
+            $models = self::find()->where(ArrayHelper::merge($cond, ['status' => self::STATUS_PUBLISHED]));
         elseif (!is_null($cond) && is_string($cond))
-            $models = self::find()->where(ArrayHelper::merge([$cond], ['status' => self::POST_STATUS_PUBLISHED]));
+            $models = self::find()->where(ArrayHelper::merge([$cond], ['status' => self::STATUS_PUBLISHED]));
         else
-            $models = self::find()->where(['status' => self::POST_STATUS_PUBLISHED]);
+            $models = self::find()->where(['status' => self::STATUS_PUBLISHED]);
 
         if ($asArray)
             return $models->asArray()->all();

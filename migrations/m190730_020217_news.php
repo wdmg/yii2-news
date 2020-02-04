@@ -51,7 +51,7 @@ class m190730_020217_news extends Migration
         $this->createIndex('{{%idx-news-author}}','{{%news}}', ['created_by', 'updated_by'],false);
 
         // If exist module `Users` set foreign key `created_by`, `updated_by` to `users.id`
-        if(class_exists('\wdmg\users\models\Users') && isset(Yii::$app->modules['users'])) {
+        if (class_exists('\wdmg\users\models\Users') && isset(Yii::$app->modules['users'])) {
             $userTable = \wdmg\users\models\Users::tableName();
             $this->addForeignKey(
                 'fk_news_to_users',

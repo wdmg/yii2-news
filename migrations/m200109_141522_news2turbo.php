@@ -12,7 +12,9 @@ class m200109_141522_news2turbo extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%news}}', 'in_turbo', $this->boolean()->defaultValue(true)->after('source'));
+
+        if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_turbo')))
+            $this->addColumn('{{%news}}', 'in_turbo', $this->boolean()->defaultValue(true)->after('source'));
 
     }
 
@@ -21,6 +23,9 @@ class m200109_141522_news2turbo extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn('{{%news}}', 'in_turbo');
+
+        if (!is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_turbo')))
+            $this->dropColumn('{{%news}}', 'in_turbo');
+
     }
 }
