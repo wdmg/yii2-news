@@ -97,9 +97,9 @@ class DefaultController extends Controller
     protected function findModel($alias, $isDraft = false)
     {
 
-        $status = News::STATUS_PUBLISHED;
+        $status = News::POST_STATUS_PUBLISHED;
         if ($isDraft)
-            $status = News::STATUS_DRAFT;
+            $status = News::POST_STATUS_DRAFT;
 
         $model = News::find()->where([
             'alias' => $alias,

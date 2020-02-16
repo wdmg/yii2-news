@@ -86,7 +86,7 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
-        $model->status = $model::POST_STATUS_DRAFT;
+        $model->status = $model::POST_POST_STATUS_DRAFT;
 
         if (Yii::$app->request->isAjax) {
             if ($model->load(Yii::$app->request->post())) {
@@ -165,7 +165,7 @@ class NewsController extends Controller
                 if ($model->save()) {
 
                     // Set 301-redirect from old URL to new
-                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::STATUS_PUBLISHED)) {
+                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::POST_STATUS_PUBLISHED)) {
                         // @TODO: remove old redirects
                         Yii::$app->redirects->set('news', $oldPostUrl, $newPostUrl, 301);
                     }
