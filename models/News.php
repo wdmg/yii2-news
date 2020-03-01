@@ -103,7 +103,7 @@ class News extends ActiveRecord
         ];
 
         if (class_exists('\wdmg\users\models\Users')) {
-            $rules[] = [['created_by', 'updated_by'], 'required'];
+            $rules[] = [['created_by', 'updated_by'], 'safe'];
         }
 
         return $rules;
@@ -243,23 +243,23 @@ class News extends ActiveRecord
     /**
      * @return object of \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getCreatedBy()
     {
         if (class_exists('\wdmg\users\models\Users'))
             return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'created_by']);
         else
-            return null;
+            return $this->created_by;
     }
 
     /**
      * @return object of \yii\db\ActiveQuery
      */
-    public function getUsers()
+    public function getUpdatedBy()
     {
         if (class_exists('\wdmg\users\models\Users'))
-            return $this->hasMany(\wdmg\users\models\Users::class, ['id' => 'created_by']);
+            return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'updated_by']);
         else
-            return null;
+            return $this->updated_by;
     }
 
 

@@ -39,7 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function($model) {
                     if ($model->image) {
-                        return '<div style="width:50%;">' . Html::img($model->getImagePath(true) . '/' . $model->image, ['class' => 'img-responsive']) . '</div>';
+                        return Html::img($model->getImagePath(true) . '/' . $model->image, [
+                            'class' => 'img-thumbnail',
+                            'style' => 'max-height: 160px'
+                        ]);
                     } else {
                         return null;
                     }
@@ -49,6 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'content',
                 'format' => 'html',
+                'contentOptions' => [
+                    'style' => 'display:inline-block;max-height:360px;overflow-x:auto;'
+                ]
             ],
             'description:ntext',
             'keywords:ntext',
@@ -104,34 +110,57 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->status;
                 }
             ],
-            /*[
-                'attribute' => 'route',
+            [
+                'attribute' => 'created',
+                'label' => Yii::t('app/modules/news','Created'),
                 'format' => 'html',
                 'value' => function($data) {
 
-                    if (isset($data->route))
-                        return Html::tag('strong', $data->route);
-                    elseif (isset($this->context->module->newsRoute))
-                        return ((is_array($this->context->module->newsRoute)) ? array_shift($this->context->module->newsRoute) : $this->context->module->newsRoute) .'&nbsp;'. Html::tag('span', Yii::t('app/modules/news','by default'), ['class' => 'label label-default']);
-                    else
-                        return null;
+                    $output = "";
+                    if ($user = $data->createdBy) {
+                        $output = Html::a($user->username, ['../admin/users/view/?id='.$user->id], [
+                            'target' => '_blank',
+                            'data-pjax' => 0
+                        ]);
+                    } else if ($data->created_by) {
+                        $output = $data->created_by;
+                    }
+
+                    if (!empty($output))
+                        $output .= ", ";
+
+                    $output .= Yii::$app->formatter->format($data->updated_at, 'datetime');
+                    return $output;
                 }
             ],
             [
-                'attribute' => 'layout',
+                'attribute' => 'updated',
+                'label' => Yii::t('app/modules/news','Updated'),
                 'format' => 'html',
                 'value' => function($data) {
-                    if (isset($data->layout))
-                        return Html::tag('strong', $data->layout);
-                    elseif (isset($this->context->module->newsLayout))
-                        return $this->context->module->newsLayout .'&nbsp;'. Html::tag('span', Yii::t('app/modules/news','by default'), ['class' => 'label label-default']);
-                    else
-                        return null;
+
+                    $output = "";
+                    if ($user = $data->updatedBy) {
+                        $output = Html::a($user->username, ['../admin/users/view/?id='.$user->id], [
+                            'target' => '_blank',
+                            'data-pjax' => 0
+                        ]);
+                    } else if ($data->updated_by) {
+                        $output = $data->updated_by;
+                    }
+
+                    if (!empty($output))
+                        $output .= ", ";
+
+                    $output .= Yii::$app->formatter->format($data->updated_at, 'datetime');
+                    return $output;
                 }
-            ],*/
-            'created_at:datetime',
-            'updated_at:datetime'
+            ],
         ],
     ]); ?>
-
+    <hr/>
+    <div class="form-group">
+        <?= Html::a(Yii::t('app/modules/news', '&larr; Back to list'), ['news/index'], ['class' => 'btn btn-default pull-left']) ?>&nbsp;
+        <?= Html::a(Yii::t('app/modules/news', 'Update'), ['news/update', 'id' => $model->id], ['class' => 'btn btn-primary pull-right']) ?>
+    </div>
 </div>
