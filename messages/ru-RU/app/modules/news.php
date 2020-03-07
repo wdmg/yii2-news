@@ -59,5 +59,13 @@ return [
     'No news available' => "Нет доступных для отображения новостей",
     'An error occurred while retrieving the news list' => "Произошла ошибка при получении списка новостей",
 
-
+    'Common' => "Дополнительно",
+    'Present in sitemap' => "Присутствует в карте сайта",
+    'Not present in sitemap' => "Не присутствует в карте сайта",
+    'Present in RSS-feed' => "Присутствует в RSS-ленте",
+    'Not present in RSS-feed' => "Не присутствует в RSS-ленте",
+    'Present in Yandex.Turbo' => "Присутствует в Яндекс.Турбо",
+    'Not present in Yandex.Turbo' => "Не присутствует в Яндекс.Турбо",
+    'Present in Google AMP' => "Присутствует в Google AMP",
+    'Not present in Google AMP' => "Не присутствует в Google AMP",
 ];
