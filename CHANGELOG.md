@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.0.8 (2020-03-11)
+ * Refactoring
+ * Migrations bugfix
+ 
 ## 1.0.7 (2020-01-18)
  * Image save bugfix
  
