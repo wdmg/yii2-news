@@ -12,10 +12,8 @@ class m200105_205517_news2sitemap extends Migration
      */
     public function safeUp()
     {
-
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_sitemap')))
             $this->addColumn('{{%news}}', 'in_sitemap', $this->boolean()->defaultValue(true)->after('source'));
-
     }
 
     /**
@@ -23,9 +21,7 @@ class m200105_205517_news2sitemap extends Migration
      */
     public function safeDown()
     {
-
-        if (!is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_sitemap')))
+        if ($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_sitemap'))
             $this->dropColumn('{{%news}}', 'in_sitemap');
-
     }
 }

@@ -12,10 +12,8 @@ class m200106_161822_news2rss extends Migration
      */
     public function safeUp()
     {
-
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_rss')))
             $this->addColumn('{{%news}}', 'in_rss', $this->boolean()->defaultValue(true)->after('source'));
-
     }
 
     /**
@@ -23,9 +21,7 @@ class m200106_161822_news2rss extends Migration
      */
     public function safeDown()
     {
-
-        if (!is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_rss')))
+        if ($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_rss'))
             $this->dropColumn('{{%news}}', 'in_rss');
-
     }
 }
