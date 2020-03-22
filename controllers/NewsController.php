@@ -86,7 +86,7 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
-        $model->status = $model::POST_POST_STATUS_DRAFT;
+        $model->status = $model::POST_STATUS_DRAFT;
 
         if (Yii::$app->request->isAjax) {
             if ($model->load(Yii::$app->request->post())) {
