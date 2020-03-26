@@ -49,6 +49,11 @@ return [
     'Google AMP?' => "Google AMP?",
     '- display in the AMP pages' => "- отображать в AMP страницах",
 
+    'First page' => 'Первая страница',
+    'Last page' => 'Последняя страница',
+    '&larr; Prev page' => '&larr; Предыдущая страница',
+    'Next page &rarr;' => 'Следующая страница &rarr;',
+
     'News post has been successfully added!' => "Новость была успешно добавлена!",
     'An error occurred while add the new post.' => "Произошла ошибка при добавлении новости.",
     'OK! News item `{name}` successfully updated.' => "OK! Новость `{name}` успешно обновлена.",

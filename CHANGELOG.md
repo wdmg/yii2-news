@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.0.9 (2020-03-27)
+ * Added pagination
+ * Up to date dependencies
+ 
 ## 1.0.8 (2020-03-11)
  * Refactoring
  * Migrations bugfix
