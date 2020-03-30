@@ -8,7 +8,7 @@ use wdmg\widgets\SelectInput;
 
 /* @var $this yii\web\View */
 
-$this->title = $this->context->module->name;
+$this->title = Yii::t('app/modules/news', 'All news');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

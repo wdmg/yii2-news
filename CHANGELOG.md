@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.10 (2020-03-30)
+ * Log activity
+ 
 ## 1.0.9 (2020-03-27)
  * Added pagination
  * Up to date dependencies

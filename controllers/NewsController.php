@@ -105,16 +105,45 @@ class NewsController extends Controller
                 if ($src = $model->upload($image))
                     $model->image = $src;
 
-                if($model->save())
+                if ($model->save()) {
+                    // Log activity
+                    if (
+                        class_exists('\wdmg\activity\models\Activity') &&
+                        $this->module->moduleLoaded('activity') &&
+                        isset(Yii::$app->activity)
+                    ) {
+                        Yii::$app->activity->set(
+                            'News post `' . $model->name . '` with ID `' . $model->id . '` has been successfully added.',
+                            $this->uniqueId . ":" . $this->action->id,
+                            'success',
+                            1
+                        );
+                    }
+
                     Yii::$app->getSession()->setFlash(
                         'success',
                         Yii::t('app/modules/news', 'News post has been successfully added!')
                     );
-                else
+                } else {
+                    // Log activity
+                    if (
+                        class_exists('\wdmg\activity\models\Activity') &&
+                        $this->module->moduleLoaded('activity') &&
+                        isset(Yii::$app->activity)
+                    ) {
+                        Yii::$app->activity->set(
+                            'An error occurred while add the new post: ' . $model->name,
+                            $this->uniqueId . ":" . $this->action->id,
+                            'danger',
+                            1
+                        );
+                    }
+
                     Yii::$app->getSession()->setFlash(
                         'danger',
                         Yii::t('app/modules/news', 'An error occurred while add the new post.')
                     );
+                }
 
                 return $this->redirect(['news/index']);
             }
@@ -170,6 +199,20 @@ class NewsController extends Controller
                         Yii::$app->redirects->set('news', $oldPostUrl, $newPostUrl, 301);
                     }
 
+                    // Log activity
+                    if (
+                        class_exists('\wdmg\activity\models\Activity') &&
+                        $this->module->moduleLoaded('activity') &&
+                        isset(Yii::$app->activity)
+                    ) {
+                        Yii::$app->activity->set(
+                            'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully updated.',
+                            $this->uniqueId . ":" . $this->action->id,
+                            'success',
+                            1
+                        );
+                    }
+
                     Yii::$app->getSession()->setFlash(
                         'success',
                         Yii::t(
@@ -181,6 +224,20 @@ class NewsController extends Controller
                         )
                     );
                 } else {
+                    // Log activity
+                    if (
+                        class_exists('\wdmg\activity\models\Activity') &&
+                        $this->module->moduleLoaded('activity') &&
+                        isset(Yii::$app->activity)
+                    ) {
+                        Yii::$app->activity->set(
+                            'An error occurred while update the news item `' . $model->name . '` with ID `' . $model->id . '`.',
+                            $this->uniqueId . ":" . $this->action->id,
+                            'danger',
+                            1
+                        );
+                    }
+
                     Yii::$app->getSession()->setFlash(
                         'danger',
                         Yii::t(
@@ -228,9 +285,23 @@ class NewsController extends Controller
     {
 
         $model = $this->findModel($id);
-        if($model->delete()) {
+        if ($model->delete()) {
 
             // @TODO: remove redirects of deleted pages
+
+            // Log activity
+            if (
+                class_exists('\wdmg\activity\models\Activity') &&
+                $this->module->moduleLoaded('activity') &&
+                isset(Yii::$app->activity)
+            ) {
+                Yii::$app->activity->set(
+                    'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully deleted.',
+                    $this->uniqueId . ":" . $this->action->id,
+                    'success',
+                    1
+                );
+            }
 
             Yii::$app->getSession()->setFlash(
                 'success',
@@ -243,6 +314,20 @@ class NewsController extends Controller
                 )
             );
         } else {
+            // Log activity
+            if (
+                class_exists('\wdmg\activity\models\Activity') &&
+                $this->module->moduleLoaded('activity') &&
+                isset(Yii::$app->activity)
+            ) {
+                Yii::$app->activity->set(
+                    'An error occurred while deleting the news item `' . $model->name . '` with ID `' . $model->id . '`.',
+                    $this->uniqueId . ":" . $this->action->id,
+                    'danger',
+                    1
+                );
+            }
+
             Yii::$app->getSession()->setFlash(
                 'danger',
                 Yii::t(

@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model wdmg\news\models\News */
 
 $this->title = Yii::t('app/modules/news', 'View news item');
-$this->params['breadcrumbs'][] = ['label' => $this->context->module->name, 'url' => ['news/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app/modules/news', 'All news'), 'url' => ['news/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-header">

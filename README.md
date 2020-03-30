@@ -63,6 +63,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.0.10 - Log activity
 * v.1.0.9 - Added pagination, up to date dependencies
 * v.1.0.8 - Refactoring. Migrations bugfix
 * v.1.0.7 - Image save bugfix
