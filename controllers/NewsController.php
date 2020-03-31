@@ -107,18 +107,12 @@ class NewsController extends Controller
 
                 if ($model->save()) {
                     // Log activity
-                    if (
-                        class_exists('\wdmg\activity\models\Activity') &&
-                        $this->module->moduleLoaded('activity') &&
-                        isset(Yii::$app->activity)
-                    ) {
-                        Yii::$app->activity->set(
-                            'News post `' . $model->name . '` with ID `' . $model->id . '` has been successfully added.',
-                            $this->uniqueId . ":" . $this->action->id,
-                            'success',
-                            1
-                        );
-                    }
+                    $this->module->logActivity(
+                        'News post `' . $model->name . '` with ID `' . $model->id . '` has been successfully added.',
+                        $this->uniqueId . ":" . $this->action->id,
+                        'success',
+                        1
+                    );
 
                     Yii::$app->getSession()->setFlash(
                         'success',
@@ -126,18 +120,12 @@ class NewsController extends Controller
                     );
                 } else {
                     // Log activity
-                    if (
-                        class_exists('\wdmg\activity\models\Activity') &&
-                        $this->module->moduleLoaded('activity') &&
-                        isset(Yii::$app->activity)
-                    ) {
-                        Yii::$app->activity->set(
-                            'An error occurred while add the new post: ' . $model->name,
-                            $this->uniqueId . ":" . $this->action->id,
-                            'danger',
-                            1
-                        );
-                    }
+                    $this->module->logActivity(
+                        'An error occurred while add the new post: ' . $model->name,
+                        $this->uniqueId . ":" . $this->action->id,
+                        'danger',
+                        1
+                    );
 
                     Yii::$app->getSession()->setFlash(
                         'danger',
@@ -200,18 +188,12 @@ class NewsController extends Controller
                     }
 
                     // Log activity
-                    if (
-                        class_exists('\wdmg\activity\models\Activity') &&
-                        $this->module->moduleLoaded('activity') &&
-                        isset(Yii::$app->activity)
-                    ) {
-                        Yii::$app->activity->set(
-                            'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully updated.',
-                            $this->uniqueId . ":" . $this->action->id,
-                            'success',
-                            1
-                        );
-                    }
+                    $this->module->logActivity(
+                        'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully updated.',
+                        $this->uniqueId . ":" . $this->action->id,
+                        'success',
+                        1
+                    );
 
                     Yii::$app->getSession()->setFlash(
                         'success',
@@ -225,18 +207,12 @@ class NewsController extends Controller
                     );
                 } else {
                     // Log activity
-                    if (
-                        class_exists('\wdmg\activity\models\Activity') &&
-                        $this->module->moduleLoaded('activity') &&
-                        isset(Yii::$app->activity)
-                    ) {
-                        Yii::$app->activity->set(
-                            'An error occurred while update the news item `' . $model->name . '` with ID `' . $model->id . '`.',
-                            $this->uniqueId . ":" . $this->action->id,
-                            'danger',
-                            1
-                        );
-                    }
+                    $this->module->logActivity(
+                        'An error occurred while update the news item `' . $model->name . '` with ID `' . $model->id . '`.',
+                        $this->uniqueId . ":" . $this->action->id,
+                        'danger',
+                        1
+                    );
 
                     Yii::$app->getSession()->setFlash(
                         'danger',
@@ -290,18 +266,12 @@ class NewsController extends Controller
             // @TODO: remove redirects of deleted pages
 
             // Log activity
-            if (
-                class_exists('\wdmg\activity\models\Activity') &&
-                $this->module->moduleLoaded('activity') &&
-                isset(Yii::$app->activity)
-            ) {
-                Yii::$app->activity->set(
-                    'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully deleted.',
-                    $this->uniqueId . ":" . $this->action->id,
-                    'success',
-                    1
-                );
-            }
+            $this->module->logActivity(
+                'News item `' . $model->name . '` with ID `' . $model->id . '` has been successfully deleted.',
+                $this->uniqueId . ":" . $this->action->id,
+                'success',
+                1
+            );
 
             Yii::$app->getSession()->setFlash(
                 'success',
@@ -315,18 +285,12 @@ class NewsController extends Controller
             );
         } else {
             // Log activity
-            if (
-                class_exists('\wdmg\activity\models\Activity') &&
-                $this->module->moduleLoaded('activity') &&
-                isset(Yii::$app->activity)
-            ) {
-                Yii::$app->activity->set(
-                    'An error occurred while deleting the news item `' . $model->name . '` with ID `' . $model->id . '`.',
-                    $this->uniqueId . ":" . $this->action->id,
-                    'danger',
-                    1
-                );
-            }
+            $this->module->logActivity(
+                'An error occurred while deleting the news item `' . $model->name . '` with ID `' . $model->id . '`.',
+                $this->uniqueId . ":" . $this->action->id,
+                'danger',
+                1
+            );
 
             Yii::$app->getSession()->setFlash(
                 'danger',
