@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m200105_205517_news2sitemap
+ * Class m200109_141622_news2sitemap
  */
-class m200105_205517_news2sitemap extends Migration
+class m200109_141622_news2sitemap extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,7 +13,7 @@ class m200105_205517_news2sitemap extends Migration
     public function safeUp()
     {
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_sitemap')))
-            $this->addColumn('{{%news}}', 'in_sitemap', $this->boolean()->defaultValue(true)->after('source'));
+            $this->addColumn('{{%news}}', 'in_sitemap', $this->boolean()->defaultValue(true)->after('status'));
     }
 
     /**

@@ -13,7 +13,7 @@ class m200109_141522_news2turbo extends Migration
     public function safeUp()
     {
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('in_turbo')))
-            $this->addColumn('{{%news}}', 'in_turbo', $this->boolean()->defaultValue(true)->after('source'));
+            $this->addColumn('{{%news}}', 'in_turbo', $this->boolean()->defaultValue(true)->after('status'));
     }
 
     /**
