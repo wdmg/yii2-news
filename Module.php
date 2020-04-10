@@ -16,6 +16,7 @@ namespace wdmg\news;
 
 use Yii;
 use wdmg\base\BaseModule;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -69,6 +70,12 @@ class Module extends BaseModule
     public $imagePath = "/uploads/news";
 
     /**
+     * @var array, the list of support locales for multi-language versions of page.
+     * @note This variable will be override if you use the `wdmg\yii2-translations` module.
+     */
+    public $supportLocales = ['ru-RU', 'uk-UA', 'en-US'];
+
+    /**
      * {@inheritdoc}
      */
     public function init()
@@ -80,6 +87,15 @@ class Module extends BaseModule
 
         // Set priority of current module
         $this->setPriority($this->priority);
+
+        if (isset(Yii::$app->params["news.baseRoute"]))
+            $this->baseRoute = Yii::$app->params["news.baseRoute"];
+
+        if (isset(Yii::$app->params["news.supportLocales"]))
+            $this->supportLocales = Yii::$app->params["news.supportLocales"];
+
+        if (!isset($this->baseRoute))
+            throw new InvalidConfigException("Required module property `baseRoute` isn't set.");
 
         // Process and normalize route for news in frontend
         $this->baseRoute = self::normalizeRoute($this->baseRoute);
@@ -110,32 +126,12 @@ class Module extends BaseModule
         parent::bootstrap($app);
 
         // Add routes to news in frontend
-        $baseRoute = $this->baseRoute;
-        if (empty($baseRoute) || $baseRoute == "/") {
-            $app->getUrlManager()->addRules([
-                [
-                    'pattern' => '/<alias:[\w-]+>',
-                    'route' => 'admin/news/default/view',
-                    'suffix' => ''
-                ],
-                '/<alias:[\w-]+>' => 'admin/news/default/view',
-            ], true);
-        } else {
-            $app->getUrlManager()->addRules([
-                [
-                    'pattern' => $baseRoute,
-                    'route' => 'admin/news/default/index',
-                    'suffix' => ''
-                ],
-                [
-                    'pattern' => $baseRoute . '/<alias:[\w-]+>',
-                    'route' => 'admin/news/default/view',
-                    'suffix' => ''
-                ],
-                $baseRoute => 'admin/news/default/index',
-                $baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
-            ], true);
-        }
+        $app->getUrlManager()->addRules([
+            '/<lang:\w+>' . $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+            $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+            '/<lang:\w+>' . $this->baseRoute => 'admin/news/default/index',
+            $this->baseRoute => 'admin/news/default/index',
+        ], true);
     }
 
 
