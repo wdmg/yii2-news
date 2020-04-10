@@ -54,19 +54,19 @@ class Module extends BaseModule
     private $priority = 4;
 
     /**
-     * @var string the default routes to rendered news (use "/" - for root)
+     * @var string the default routes to rendered news in @frontend (use "/" - for root)
      */
-    public $newsRoute = "/news";
+    public $baseRoute = "/news";
 
     /**
-     * @var string, the default layout to render news
+     * @var string, the default layout to render news in @frontend
      */
-    public $newsLayout = "@app/views/layouts/main";
+    public $baseLayout = "@app/views/layouts/main";
 
     /**
      * @var string, the default path to save news thumbnails in @webroot
      */
-    public $newsImagePath = "/uploads/news";
+    public $imagePath = "/uploads/news";
 
     /**
      * {@inheritdoc}
@@ -82,10 +82,10 @@ class Module extends BaseModule
         $this->setPriority($this->priority);
 
         // Process and normalize route for news in frontend
-        $this->newsRoute = self::normalizeRoute($this->newsRoute);
+        $this->baseRoute = self::normalizeRoute($this->baseRoute);
 
         // Normalize path to image folder
-        $this->newsImagePath = \yii\helpers\FileHelper::normalizePath($this->newsImagePath);
+        $this->imagePath = \yii\helpers\FileHelper::normalizePath($this->imagePath);
     }
 
     /**
@@ -110,8 +110,8 @@ class Module extends BaseModule
         parent::bootstrap($app);
 
         // Add routes to news in frontend
-        $newsRoute = $this->newsRoute;
-        if (empty($newsRoute) || $newsRoute == "/") {
+        $baseRoute = $this->baseRoute;
+        if (empty($baseRoute) || $baseRoute == "/") {
             $app->getUrlManager()->addRules([
                 [
                     'pattern' => '/<alias:[\w-]+>',
@@ -123,17 +123,17 @@ class Module extends BaseModule
         } else {
             $app->getUrlManager()->addRules([
                 [
-                    'pattern' => $newsRoute,
+                    'pattern' => $baseRoute,
                     'route' => 'admin/news/default/index',
                     'suffix' => ''
                 ],
                 [
-                    'pattern' => $newsRoute . '/<alias:[\w-]+>',
+                    'pattern' => $baseRoute . '/<alias:[\w-]+>',
                     'route' => 'admin/news/default/view',
                     'suffix' => ''
                 ],
-                $newsRoute => 'admin/news/default/index',
-                $newsRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+                $baseRoute => 'admin/news/default/index',
+                $baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
             ], true);
         }
     }
@@ -145,7 +145,7 @@ class Module extends BaseModule
     public function install()
     {
         parent::install();
-        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        $path = Yii::getAlias('@webroot') . $this->imagePath;
         if (\yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
             return true;
         else
@@ -158,7 +158,7 @@ class Module extends BaseModule
     public function uninstall()
     {
         parent::uninstall();
-        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        $path = Yii::getAlias('@webroot') . $this->imagePath;
         if (\yii\helpers\FileHelper::removeDirectory($path))
             return true;
         else

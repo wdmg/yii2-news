@@ -40,9 +40,9 @@ To add a module to the project, add the following data in your configuration fil
         'news' => [
             'class' => 'wdmg\news\Module',
             'routePrefix' => 'admin',
-            'newsRoute'  => '/news', // route for frontend (string or array), use "/" - for root
-            'newsLayout' => '@app/views/layouts/main', // the default layout to render news
-            'newsImagePath' => '/uploads/news' // the default path to save news thumbnails in @webroot
+            'baseRoute'  => '/news', // default routes to rendered news in @frontend (use "/" - for root)
+            'baseLayout' => '@app/views/layouts/main', // default layout to render news in @frontend
+            'imagePath' => '/uploads/news' // the default path to save news thumbnails in @webroot
         ],
         ...
     ],

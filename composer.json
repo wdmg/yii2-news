@@ -36,9 +36,9 @@
   "extra": {
     "options": {
       "routePrefix": "admin",
-      "newsRoute": "/news",
-      "newsLayout": "@app/views/layouts/main",
-      "newsImagePath": "/uploads/news"
+      "baseRoute": "/news",
+      "baseLayout": "@app/views/layouts/main",
+      "imagePath": "/uploads/news"
     }
   }
 }

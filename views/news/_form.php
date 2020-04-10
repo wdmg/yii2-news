@@ -22,8 +22,8 @@ use wdmg\widgets\SelectInput;
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?php
             $output = '';
-            if (($postURL = $model->getPostUrl(true, true)) && $model->id) {
-                $output = Html::a($model->getPostUrl(true, false), $postURL, [
+            if (($postURL = $model->getModelUrl(true, true)) && $model->id) {
+                $output = Html::a($model->getModelUrl(true, false), $postURL, [
                         'target' => '_blank',
                         'data-pjax' => 0
                     ]);

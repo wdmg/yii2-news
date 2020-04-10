@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.0.*
+ * Rebased to ActiveRecordML model
  * Start of multi-language support, fix migrations
  
 ## 1.0.10 (2020-03-31)

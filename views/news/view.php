@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function($model) {
                     $output = Html::tag('strong', $model->name);
-                    if (($postURL = $model->getPostUrl(true, true)) && $model->id) {
-                        $output .= '<br/>' . Html::a($model->getPostUrl(true, false), $postURL, [
+                    if (($postURL = $model->getModelUrl(true, true)) && $model->id) {
+                        $output .= '<br/>' . Html::a($model->getModelUrl(true, false), $postURL, [
                             'target' => '_blank',
                             'data-pjax' => 0
                         ]);
@@ -97,9 +97,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'format' => 'html',
                 'value' => function($data) {
-                    if ($data->status == $data::POST_STATUS_PUBLISHED)
+                    if ($data->status == $data::STATUS_PUBLISHED)
                         return '<span class="label label-success">'.Yii::t('app/modules/news','Published').'</span>';
-                    elseif ($data->status == $data::POST_STATUS_DRAFT)
+                    elseif ($data->status == $data::STATUS_DRAFT)
                         return '<span class="label label-default">'.Yii::t('app/modules/news','Draft').'</span>';
                     else
                         return $data->status;
