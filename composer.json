@@ -38,7 +38,8 @@
       "routePrefix": "admin",
       "baseRoute": "/news",
       "baseLayout": "@app/views/layouts/main",
-      "imagePath": "/uploads/news"
+      "imagePath": "/uploads/news",
+      "supportLocales": ["ru-RU", "uk-UA", "en-US"]
     }
   }
 }

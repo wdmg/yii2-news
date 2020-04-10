@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.0.*
+ * Added `supportLocales` module properties
  * Rebased to ActiveRecordML model
  * Start of multi-language support, fix migrations
  

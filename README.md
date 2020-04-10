@@ -42,7 +42,8 @@ To add a module to the project, add the following data in your configuration fil
             'routePrefix' => 'admin',
             'baseRoute'  => '/news', // default routes to rendered news in @frontend (use "/" - for root)
             'baseLayout' => '@app/views/layouts/main', // default layout to render news in @frontend
-            'imagePath' => '/uploads/news' // the default path to save news thumbnails in @webroot
+            'imagePath' => '/uploads/news', // the default path to save news thumbnails in @webroot
+            'supportLocales' => ['ru-RU', 'uk-UA', 'en-US'] // list of support locales for multi-language versions
         ],
         ...
     ],
