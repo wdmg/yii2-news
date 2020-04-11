@@ -36,6 +36,7 @@ class News extends ActiveRecordML
 
     public $uniqueAttributes = ['alias'];
 
+    public $route;
     public $file;
 
     /**

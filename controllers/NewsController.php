@@ -17,6 +17,16 @@ class NewsController extends Controller
 {
 
     /**
+     * @var string|null Storaged selected language (locale)
+     */
+    private $_locale;
+
+    /**
+     * @var string|null Storaged selected id of source page
+     */
+    private $_source_id;
+
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -62,6 +72,16 @@ class NewsController extends Controller
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function beforeAction($action)
+    {
+        $this->_locale = Yii::$app->request->get('locale', null);
+        $this->_source_id = Yii::$app->request->get('source_id', null);
+        return parent::beforeAction($action);
+    }
+
+    /**
      * Lists of all News models.
      * @return mixed
      */
@@ -86,7 +106,41 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
+        $model->scenario = $model::SCENARIO_CREATE;
         $model->status = $model::STATUS_DRAFT;
+
+        // No language is set for this model, we will use the current user language
+        if (is_null($model->locale)) {
+            if (is_null($this->_locale)) {
+
+                $model->locale = Yii::$app->language;
+                if (!Yii::$app->request->isPost) {
+
+                    $languages = $model->getLanguagesList(false);
+                    Yii::$app->getSession()->setFlash(
+                        'danger',
+                        Yii::t(
+                            'app/modules/news',
+                            'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                            [
+                                'language' => (isset($languages[Yii::$app->language])) ? $languages[Yii::$app->language] : Yii::$app->language
+                            ]
+                        )
+                    );
+                }
+            } else {
+                $model->locale = $this->_locale;
+            }
+        }
+
+        if (!is_null($this->_source_id)) {
+            $model->source_id = $this->_source_id;
+            if ($source = $model::findOne(['id' => $this->_source_id])) {
+                if ($source->id) {
+                    $model->source_id = $source->id;
+                }
+            }
+        }
 
         if (Yii::$app->request->isAjax) {
             if ($model->load(Yii::$app->request->post())) {
@@ -154,6 +208,26 @@ class NewsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        // No language is set for this model, we will use the current user language
+        if (is_null($model->locale)) {
+
+            $model->locale = Yii::$app->language;
+            if (!Yii::$app->request->isPost) {
+
+                $languages = $model->getLanguagesList(false);
+                Yii::$app->getSession()->setFlash(
+                    'danger',
+                    Yii::t(
+                        'app/modules/news',
+                        'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                        [
+                            'language' => (isset($languages[Yii::$app->language])) ? $languages[Yii::$app->language] : Yii::$app->language
+                        ]
+                    )
+                );
+            }
+        }
 
         // Get current URL before save this news item
         $oldPostUrl = $model->getPostUrl(false);
@@ -317,10 +391,28 @@ class NewsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = News::findOne($id)) !== null) {
+
+        if (is_null($this->_locale) && ($model = News::findOne($id)) !== null) {
             return $model;
+        } else {
+            if (($model = News::findOne(['source_id' => $id, 'locale' => $this->_locale])) !== null)
+                return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app/modules/news', 'The requested news does not exist.'));
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale() {
+        return $this->_locale;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSourceId() {
+        return $this->_source_id;
     }
 }
