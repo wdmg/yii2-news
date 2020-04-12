@@ -89,6 +89,7 @@ class News extends ActiveRecordML
     {
         return ArrayHelper::merge([
             'id' => Yii::t('app/modules/news', 'ID'),
+            'source_id' => Yii::t('app/modules/news', 'Source ID'),
             'name' => Yii::t('app/modules/news', 'Name'),
             'alias' => Yii::t('app/modules/news', 'Alias'),
             'image' => Yii::t('app/modules/news', 'Image'),
@@ -102,6 +103,7 @@ class News extends ActiveRecordML
             'in_rss' => Yii::t('app/modules/news', 'In RSS-feed?'),
             'in_turbo' => Yii::t('app/modules/news', 'Yandex turbo-pages?'),
             'in_amp' => Yii::t('app/modules/news', 'Google AMP?'),
+            'locale' => Yii::t('app/modules/news', 'Locale'),
             'status' => Yii::t('app/modules/news', 'Status'),
             'created_at' => Yii::t('app/modules/news', 'Created at'),
             'created_by' => Yii::t('app/modules/news', 'Created by'),

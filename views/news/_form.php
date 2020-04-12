@@ -68,28 +68,62 @@ use wdmg\widgets\LangSwitcher;
         }
     ?>
 
-    <?= $form->field($model, 'title')->textInput() ?>
-    <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
-    <?= $form->field($model, 'keywords')->textarea(['rows' => 3]) ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h6 class="panel-title">
+                <a data-toggle="collapse" href="#newsMetaTags">
+                    <?= Yii::t('app/modules/news', "Meta tags") ?>
+                </a>
+            </h6>
+        </div>
+        <div id="newsMetaTags" class="panel-collapse collapse">
+            <div class="panel-body">
+                <?= $form->field($model, 'title')->textInput() ?>
+                <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+                <?= $form->field($model, 'keywords')->textarea(['rows' => 3]) ?>
+            </div>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'in_sitemap', [
-            'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
-        ])
-        ->checkbox(['label' => Yii::t('app/modules/news', '- display in the sitemap')])
-        ->label(Yii::t('app/modules/news', 'Sitemap'))
-    ?>
-    <?= $form->field($model, 'in_rss', [
-        'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
-    ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the rss-feed')])->label(Yii::t('app/modules/news', 'RSS-feed'))
-    ?>
-    <?= $form->field($model, 'in_turbo', [
-        'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
-    ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the turbo-pages')])->label(Yii::t('app/modules/news', 'Yandex turbo'))
-    ?>
-    <?= $form->field($model, 'in_amp', [
-        'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
-    ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the AMP pages')])->label(Yii::t('app/modules/news', 'Google AMP'))
-    ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h6 class="panel-title">
+                <a data-toggle="collapse" href="#newsOptions">
+                    <?= Yii::t('app/modules/news', "News options") ?>
+                </a>
+            </h6>
+        </div>
+        <div id="newsOptions" class="panel-collapse collapse">
+            <div class="panel-body">
+                <?= $form->field($model, 'in_sitemap', [
+                        'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+                    ])
+                    ->checkbox(['label' => Yii::t('app/modules/news', '- display in the sitemap')])
+                    ->label(Yii::t('app/modules/news', 'Sitemap'))
+                ?>
+                <?= $form->field($model, 'in_rss', [
+                    'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+                ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the rss-feed')])->label(Yii::t('app/modules/news', 'RSS-feed'))
+                ?>
+                <?= $form->field($model, 'in_turbo', [
+                    'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+                ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the turbo-pages')])->label(Yii::t('app/modules/news', 'Yandex turbo'))
+                ?>
+                <?= $form->field($model, 'in_amp', [
+                    'template' => "{label}\n<br/>{input}\n{hint}\n{error}"
+                ])->checkbox(['label' => Yii::t('app/modules/news', '- display in the AMP pages')])->label(Yii::t('app/modules/news', 'Google AMP'))
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <?= $form->field($model, 'locale')->widget(SelectInput::class, [
+        'items' => $languagesList,
+        'options' => [
+            'id' => 'news-form-locale',
+            'class' => 'form-control'
+        ]
+    ])->label(Yii::t('app/modules/news', 'Language')); ?>
 
     <?= $form->field($model, 'status')->widget(SelectInput::class, [
         'items' => $statusModes,

@@ -12,6 +12,10 @@ class m200409_022041_news_translations extends Migration
      */
     public function safeUp()
     {
+        $defaultLocale = null;
+        if (isset(Yii::$app->sourceLanguage))
+            $defaultLocale = Yii::$app->sourceLanguage;
+
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('source_id'))) {
             $this->addColumn('{{%news}}', 'source_id', $this->bigInteger()->null()->after('id'));
 
@@ -29,7 +33,8 @@ class m200409_022041_news_translations extends Migration
 
         }
         if (is_null($this->getDb()->getSchema()->getTableSchema('{{%news}}')->getColumn('locale'))) {
-            $this->addColumn('{{%news}}', 'locale', $this->string(10)->after('status'));
+
+            $this->addColumn('{{%news}}', 'locale', $this->string(10)->defaultValue($defaultLocale)->after('status'));
             $this->createIndex('{{%idx-news-locale}}', '{{%news}}', ['locale']);
 
             // If module `Translations` exist setup foreign key `locale` to `trans_langs.locale`

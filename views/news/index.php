@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -10,6 +11,12 @@ use wdmg\widgets\SelectInput;
 
 $this->title = Yii::t('app/modules/news', 'All news');
 $this->params['breadcrumbs'][] = $this->title;
+
+if (isset(Yii::$app->translations) && class_exists('\wdmg\translations\FlagsAsset')) {
+    $bundle = \wdmg\translations\FlagsAsset::register(Yii::$app->view);
+} else {
+    $bundle = false;
+}
 
 ?>
 <div class="page-header">
@@ -131,6 +138,117 @@ $this->params['breadcrumbs'][] = $this->title;
                         $output .= '<span class="fa fa-fw fa-bolt text-danger" title="' . Yii::t('app/modules/news','Not present in Google AMP') . '"></span>';
 
                     return $output;
+                }
+            ],
+            [
+                'attribute' => 'locale',
+                'label' => Yii::t('app/modules/news','Language versions'),
+                'format' => 'raw',
+                'filter' => false,
+                'headerOptions' => [
+                    'class' => 'text-center',
+                    'style' => 'min-width:96px;'
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ],
+                'value' => function($data) use ($bundle) {
+
+                    $output = [];
+                    $separator = ", ";
+                    $versions = $data->getAllVersions($data->id, true);
+                    $locales = ArrayHelper::map($versions, 'id', 'locale');
+
+                    if (isset(Yii::$app->translations)) {
+                        foreach ($locales as $item_locale) {
+
+                            $locale = Yii::$app->translations->parseLocale($item_locale, Yii::$app->language);
+
+                            if ($item_locale === $locale['locale']) { // Fixing default locale from PECL intl
+
+                                if (!($country = $locale['domain']))
+                                    $country = '_unknown';
+
+                                $flag = \yii\helpers\Html::img($bundle->baseUrl . '/flags-iso/flat/24/' . $country . '.png', [
+                                    'alt' => $locale['name']
+                                ]);
+
+                                if ($data->locale === $locale['locale']) // It`s source version
+                                    $output[] = Html::a($flag,
+                                        [
+                                            'news/update', 'id' => $data->id
+                                        ], [
+                                            'title' => Yii::t('app/modules/news','Edit source version: {language}', [
+                                                'language' => $locale['name']
+                                            ])
+                                        ]
+                                    );
+                                else  // Other localization versions
+                                    $output[] = Html::a($flag,
+                                        [
+                                            'news/update', 'id' => $data->id,
+                                            'locale' => $locale['locale']
+                                        ], [
+                                            'title' => Yii::t('app/modules/news','Edit language version: {language}', [
+                                                'language' => $locale['name']
+                                            ])
+                                        ]
+                                    );
+
+                            }
+
+                        }
+                        $separator = "";
+                    } else {
+                        foreach ($locales as $locale) {
+                            if (!empty($locale)) {
+
+                                if (extension_loaded('intl'))
+                                    $language = mb_convert_case(trim(\Locale::getDisplayLanguage($locale, Yii::$app->language)), MB_CASE_TITLE, "UTF-8");
+                                else
+                                    $language = $locale;
+
+                                if ($data->locale === $locale) // It`s source version
+                                    $output[] = Html::a($language,
+                                        [
+                                            'news/update', 'id' => $data->id
+                                        ], [
+                                            'title' => Yii::t('app/modules/news','Edit source version: {language}', [
+                                                'language' => $language
+                                            ])
+                                        ]
+                                    );
+                                else  // Other localization versions
+                                    $output[] = Html::a($language,
+                                        [
+                                            'news/update', 'id' => $data->id,
+                                            'locale' => $locale
+                                        ], [
+                                            'title' => Yii::t('app/modules/news','Edit language version: {language}', [
+                                                'language' => $language
+                                            ])
+                                        ]
+                                    );
+                            }
+                        }
+                    }
+
+
+                    if (is_countable($output)) {
+                        if (count($output) > 0) {
+                            $onMore = false;
+                            if (count($output) > 3)
+                                $onMore = true;
+
+                            if ($onMore)
+                                return join(array_slice($output, 0, 3), $separator) . "&nbsp;…";
+                            else
+                                return join($separator, $output);
+
+                        }
+                    }
+
+                    return null;
                 }
             ],
             [
