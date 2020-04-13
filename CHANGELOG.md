@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## 1.1.0 (2020-04-14)
+ * Controllers and Views
+ * LangSwitcher::widget() for model form
+ * Added `supportLocales` module properties
+ * Rebased to ActiveRecordML model
+ * Start of multi-language support, fix migrations
+ 
 ## 1.0.10 (2020-03-31)
  * Log activity
  

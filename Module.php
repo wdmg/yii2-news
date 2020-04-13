@@ -6,7 +6,7 @@ namespace wdmg\news;
  * Yii2 News
  *
  * @category        Module
- * @version         1.0.10
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-news
  * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
@@ -16,6 +16,7 @@ namespace wdmg\news;
 
 use Yii;
 use wdmg\base\BaseModule;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -46,7 +47,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.10";
+    private $version = "1.1.0";
 
     /**
      * @var integer, priority of initialization
@@ -54,19 +55,25 @@ class Module extends BaseModule
     private $priority = 4;
 
     /**
-     * @var string the default routes to rendered news (use "/" - for root)
+     * @var string the default routes to rendered news in @frontend (use "/" - for root)
      */
-    public $newsRoute = "/news";
+    public $baseRoute = "/news";
 
     /**
-     * @var string, the default layout to render news
+     * @var string, the default layout to render news in @frontend
      */
-    public $newsLayout = "@app/views/layouts/main";
+    public $baseLayout = "@app/views/layouts/main";
 
     /**
      * @var string, the default path to save news thumbnails in @webroot
      */
-    public $newsImagePath = "/uploads/news";
+    public $imagePath = "/uploads/news";
+
+    /**
+     * @var array, the list of support locales for multi-language versions of page.
+     * @note This variable will be override if you use the `wdmg\yii2-translations` module.
+     */
+    public $supportLocales = ['ru-RU', 'uk-UA', 'en-US'];
 
     /**
      * {@inheritdoc}
@@ -81,11 +88,20 @@ class Module extends BaseModule
         // Set priority of current module
         $this->setPriority($this->priority);
 
+        if (isset(Yii::$app->params["news.baseRoute"]))
+            $this->baseRoute = Yii::$app->params["news.baseRoute"];
+
+        if (isset(Yii::$app->params["news.supportLocales"]))
+            $this->supportLocales = Yii::$app->params["news.supportLocales"];
+
+        if (!isset($this->baseRoute))
+            throw new InvalidConfigException("Required module property `baseRoute` isn't set.");
+
         // Process and normalize route for news in frontend
-        $this->newsRoute = self::normalizeRoute($this->newsRoute);
+        $this->baseRoute = self::normalizeRoute($this->baseRoute);
 
         // Normalize path to image folder
-        $this->newsImagePath = \yii\helpers\FileHelper::normalizePath($this->newsImagePath);
+        $this->imagePath = \yii\helpers\FileHelper::normalizePath($this->imagePath);
     }
 
     /**
@@ -110,32 +126,12 @@ class Module extends BaseModule
         parent::bootstrap($app);
 
         // Add routes to news in frontend
-        $newsRoute = $this->newsRoute;
-        if (empty($newsRoute) || $newsRoute == "/") {
-            $app->getUrlManager()->addRules([
-                [
-                    'pattern' => '/<alias:[\w-]+>',
-                    'route' => 'admin/news/default/view',
-                    'suffix' => ''
-                ],
-                '/<alias:[\w-]+>' => 'admin/news/default/view',
-            ], true);
-        } else {
-            $app->getUrlManager()->addRules([
-                [
-                    'pattern' => $newsRoute,
-                    'route' => 'admin/news/default/index',
-                    'suffix' => ''
-                ],
-                [
-                    'pattern' => $newsRoute . '/<alias:[\w-]+>',
-                    'route' => 'admin/news/default/view',
-                    'suffix' => ''
-                ],
-                $newsRoute => 'admin/news/default/index',
-                $newsRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
-            ], true);
-        }
+        $app->getUrlManager()->addRules([
+            '/<lang:\w+>' . $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+            $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+            '/<lang:\w+>' . $this->baseRoute => 'admin/news/default/index',
+            $this->baseRoute => 'admin/news/default/index',
+        ], true);
     }
 
 
@@ -145,7 +141,7 @@ class Module extends BaseModule
     public function install()
     {
         parent::install();
-        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        $path = Yii::getAlias('@webroot') . $this->imagePath;
         if (\yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
             return true;
         else
@@ -158,7 +154,7 @@ class Module extends BaseModule
     public function uninstall()
     {
         parent::uninstall();
-        $path = Yii::getAlias('@webroot') . $this->newsImagePath;
+        $path = Yii::getAlias('@webroot') . $this->imagePath;
         if (\yii\helpers\FileHelper::removeDirectory($path))
             return true;
         else

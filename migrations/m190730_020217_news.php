@@ -35,8 +35,6 @@ class m190730_020217_news extends Migration
 
             'status' => $this->tinyInteger(1)->null()->defaultValue(0),
 
-            'source' => $this->string(255)->null(),
-
             'created_at' => $this->dateTime()->defaultExpression('CURRENT_TIMESTAMP'),
             'created_by' => $this->integer(11)->notNull()->defaultValue(0),
             'updated_at' => $this->datetime()->defaultExpression('CURRENT_TIMESTAMP'),
@@ -47,7 +45,12 @@ class m190730_020217_news extends Migration
 
         $this->createIndex('{{%idx-news-alias}}', '{{%news}}', ['name', 'alias']);
         $this->createIndex('{{%idx-news-status}}', '{{%news}}', ['alias', 'status']);
-        $this->createIndex('{{%idx-news-content}}','{{%news}}', ['name', 'excerpt', 'content(250)'],false);
+
+        if ($this->db->driverName === 'mysql')
+            $this->createIndex('{{%idx-news-content}}','{{%news}}', ['name', 'excerpt', 'content(250)'],false);
+        else
+            $this->createIndex('{{%idx-news-content}}','{{%news}}', ['name', 'excerpt', 'content'],false);
+
         $this->createIndex('{{%idx-news-author}}','{{%news}}', ['created_by', 'updated_by'],false);
 
         // If exist module `Users` set foreign key `created_by`, `updated_by` to `users.id`

@@ -17,6 +17,16 @@ class NewsController extends Controller
 {
 
     /**
+     * @var string|null Selected language (locale)
+     */
+    private $_locale;
+
+    /**
+     * @var string|null Selected id of source
+     */
+    private $_source_id;
+
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -30,8 +40,6 @@ class NewsController extends Controller
                     'delete' => ['post'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
-                    'export' => ['get'],
-                    'import' => ['post'],
                 ],
             ],
             'access' => [
@@ -62,6 +70,16 @@ class NewsController extends Controller
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function beforeAction($action)
+    {
+        $this->_locale = Yii::$app->request->get('locale', null);
+        $this->_source_id = Yii::$app->request->get('source_id', null);
+        return parent::beforeAction($action);
+    }
+
+    /**
      * Lists of all News models.
      * @return mixed
      */
@@ -86,7 +104,41 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
-        $model->status = $model::POST_STATUS_DRAFT;
+        $model->scenario = $model::SCENARIO_CREATE;
+        $model->status = $model::STATUS_DRAFT;
+
+        // No language is set for this model, we will use the current user language
+        if (is_null($model->locale)) {
+            if (is_null($this->_locale)) {
+
+                $model->locale = Yii::$app->language;
+                if (!Yii::$app->request->isPost) {
+
+                    $languages = $model->getLanguagesList(false);
+                    Yii::$app->getSession()->setFlash(
+                        'danger',
+                        Yii::t(
+                            'app/modules/news',
+                            'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                            [
+                                'language' => (isset($languages[Yii::$app->language])) ? $languages[Yii::$app->language] : Yii::$app->language
+                            ]
+                        )
+                    );
+                }
+            } else {
+                $model->locale = $this->_locale;
+            }
+        }
+
+        if (!is_null($this->_source_id)) {
+            $model->source_id = $this->_source_id;
+            if ($source = $model::findOne(['id' => $this->_source_id])) {
+                if ($source->id) {
+                    $model->source_id = $source->id;
+                }
+            }
+        }
 
         if (Yii::$app->request->isAjax) {
             if ($model->load(Yii::$app->request->post())) {
@@ -155,6 +207,26 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
 
+        // No language is set for this model, we will use the current user language
+        if (is_null($model->locale)) {
+
+            $model->locale = Yii::$app->language;
+            if (!Yii::$app->request->isPost) {
+
+                $languages = $model->getLanguagesList(false);
+                Yii::$app->getSession()->setFlash(
+                    'danger',
+                    Yii::t(
+                        'app/modules/news',
+                        'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                        [
+                            'language' => (isset($languages[Yii::$app->language])) ? $languages[Yii::$app->language] : Yii::$app->language
+                        ]
+                    )
+                );
+            }
+        }
+
         // Get current URL before save this news item
         $oldPostUrl = $model->getPostUrl(false);
 
@@ -182,7 +254,7 @@ class NewsController extends Controller
                 if ($model->save()) {
 
                     // Set 301-redirect from old URL to new
-                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::POST_STATUS_PUBLISHED)) {
+                    if (isset(Yii::$app->redirects) && ($oldPostUrl !== $newPostUrl) && ($model->status == $model::STATUS_PUBLISHED)) {
                         // @TODO: remove old redirects
                         Yii::$app->redirects->set('news', $oldPostUrl, $newPostUrl, 301);
                     }
@@ -311,16 +383,39 @@ class NewsController extends Controller
     /**
      * Finds the News model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return news model item
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = News::findOne($id)) !== null) {
+
+        if (is_null($this->_locale) && ($model = News::findOne($id)) !== null) {
             return $model;
+        } else {
+            if (($model = News::findOne(['source_id' => $id, 'locale' => $this->_locale])) !== null)
+                return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app/modules/news', 'The requested news does not exist.'));
+    }
+
+    /**
+     * Return current locale for dashboard
+     *
+     * @return string|null
+     */
+    public function getLocale() {
+        return $this->_locale;
+    }
+
+    /**
+     * Return current Source ID for dashboard
+     *
+     * @return string|null
+     */
+    public function getSourceId() {
+        return $this->_source_id;
     }
 }

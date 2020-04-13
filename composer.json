@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-news", "news", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "homepage": "https://github.com/wdmg/yii2-news",
   "support": {
     "source": "https://github.com/wdmg/yii2-news",
@@ -25,7 +25,8 @@
     "wdmg/yii2-base": "^1.1.8",
     "wdmg/yii2-selectinput": "^1.0.7",
     "wdmg/yii2-helpers": "^1.3.1",
-    "wdmg/yii2-editor": "^1.0.7"
+    "wdmg/yii2-editor": "^1.0.7",
+    "wdmg/yii2-widgets": "^1.0.2"
   },
   "minimum-stability": "dev",
   "autoload": {
@@ -36,9 +37,10 @@
   "extra": {
     "options": {
       "routePrefix": "admin",
-      "newsRoute": "/news",
-      "newsLayout": "@app/views/layouts/main",
-      "newsImagePath": "/uploads/news"
+      "baseRoute": "/news",
+      "baseLayout": "@app/views/layouts/main",
+      "imagePath": "/uploads/news",
+      "supportLocales": ["ru-RU", "uk-UA", "en-US"]
     }
   }
 }

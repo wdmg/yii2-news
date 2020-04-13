@@ -11,7 +11,7 @@ use yii\helpers\HtmlPurifier;
     ?>
     <?= HtmlPurifier::process($model->excerpt); ?>
     <?php
-    if (($pageURL = $model->getPostUrl()) && $model->id)
-        echo Html::a('Read more', $pageURL);
+    if (($postURL = $model->getUrl()) && $model->id)
+        echo Html::a('Read more', $postURL);
     ?>
 </div>

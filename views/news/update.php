@@ -11,7 +11,7 @@ $this->title = Yii::t('app/modules/news', 'Updating news: {name}', [
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app/modules/news', 'All news'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::stringShorter($model->name, 64), 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app/modules/news', 'Edit');
+$this->params['breadcrumbs'][] = Yii::t('app/modules/news', 'Updating');
 
 
 ?>
@@ -23,5 +23,6 @@ $this->params['breadcrumbs'][] = Yii::t('app/modules/news', 'Edit');
         'module' => $module,
         'model' => $model,
         'statusModes' => $model->getStatusesList(),
+        'languagesList' => $model->getLanguagesList(false),
     ]); ?>
 </div>
