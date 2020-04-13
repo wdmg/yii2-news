@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 1.1.0
+## 1.1.0 (2020-04-14)
  * Controllers and Views
  * LangSwitcher::widget() for model form
  * Added `supportLocales` module properties
