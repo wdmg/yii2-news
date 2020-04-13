@@ -39,8 +39,8 @@ use wdmg\widgets\LangSwitcher;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?php
         $output = '';
-        if (($postURL = $model->getModelUrl(true, true)) && $model->id) {
-            $output = Html::a($model->getModelUrl(true, false), $postURL, [
+        if (($postURL = $model->getUrl(true, true)) && $model->id) {
+            $output = Html::a($model->getUrl(true, false), $postURL, [
                     'target' => '_blank',
                     'data-pjax' => 0
                 ]);
@@ -72,7 +72,7 @@ use wdmg\widgets\LangSwitcher;
         <div class="panel-heading">
             <h6 class="panel-title">
                 <a data-toggle="collapse" href="#newsMetaTags">
-                    <?= Yii::t('app/modules/news', "Meta tags") ?>
+                    <?= Yii::t('app/modules/news', "SEO") ?>
                 </a>
             </h6>
         </div>
@@ -89,7 +89,7 @@ use wdmg\widgets\LangSwitcher;
         <div class="panel-heading">
             <h6 class="panel-title">
                 <a data-toggle="collapse" href="#newsOptions">
-                    <?= Yii::t('app/modules/news', "News options") ?>
+                    <?= Yii::t('app/modules/news', "Other options") ?>
                 </a>
             </h6>
         </div>

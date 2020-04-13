@@ -32,6 +32,7 @@ return [
     'New post' => "Новый пост",
     'Update' => "Редактировать",
     'All news' => "Все новости",
+    'Updating' => "Редактирование",
     'Updating news: {name}' => "Редактирование новости: {name}",
     'View news item' => "Просмотр новости",
 
@@ -73,6 +74,8 @@ return [
     'Present in Google AMP' => "Присутствует в Google AMP",
     'Not present in Google AMP' => "Не присутствует в Google AMP",
 
+    'SEO' => 'SEO',
+    'Other options' => 'Другие опции',
 
     'Locale' => 'Локаль',
     'Source ID' => 'ИД исходника',
@@ -83,10 +86,11 @@ return [
     'Language versions' => 'Языковые версии',
     'All languages' => 'Все языки',
     'Not selected' => 'Не выбран',
-    'It looks like the same language version of page or child page already exists.' => 'Похоже, что такая же языковая версия или дочерняя страница уже существует.',
+
+    'It looks like the same language version of post or child page already exists.' => 'Похоже, что такая же языковая версия или дочерняя публикация уже существует.',
     'The language version must refer to the main version.' => 'Языковая версия должна ссылаться на основную версию.',
     'A language version with the selected language already exists.' => 'Языковая версия с выбранным языком уже существует.',
-    'No display language has been set for this news post. When saving, the current user language will be selected: {language}' => 'Для данной новости не задан язык отображения. При сохранении будет выбран текущий язык пользователя: {language}',
+    'No display language has been set for this post. When saving, the current user language will be selected: {language}' => 'Для данной публикации не задан язык отображения. При сохранении будет выбран текущий язык пользователя: {language}',
     'View' => "Просмотр",
     'Edit' => "Изменить",
     'Delete' => "Удалить",
@@ -100,6 +104,7 @@ return [
     'Add language version: {language}' => "Добавить языковую версию: {language}",
     'View language version: {language}' => "Смотреть языковую версию: {language}",
     'Delete language version: {language}' => "Удалить языковую версию: {language}",
-    'Are you sure you want to delete this page?' => "Вы уверены, что хотите удалить эту страницу?",
-    'Are you sure you want to delete the language version of this page?' => "Вы уверены, что хотите удалить языковую версию этой страницы?",
+    'Are you sure you want to delete this post?' => "Вы уверены, что хотите удалить эту публикацию?",
+    'Are you sure you want to delete the language version of this post?' => "Вы уверены, что хотите удалить языковую версию этой публикации?",
+
 ];

@@ -17,12 +17,12 @@ class NewsController extends Controller
 {
 
     /**
-     * @var string|null Storaged selected language (locale)
+     * @var string|null Selected language (locale)
      */
     private $_locale;
 
     /**
-     * @var string|null Storaged selected id of source page
+     * @var string|null Selected id of source
      */
     private $_source_id;
 
@@ -40,8 +40,6 @@ class NewsController extends Controller
                     'delete' => ['post'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
-                    'export' => ['get'],
-                    'import' => ['post'],
                 ],
             ],
             'access' => [
@@ -385,6 +383,7 @@ class NewsController extends Controller
     /**
      * Finds the News model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return news model item
      * @throws NotFoundHttpException if the model cannot be found
@@ -403,6 +402,8 @@ class NewsController extends Controller
     }
 
     /**
+     * Return current locale for dashboard
+     *
      * @return string|null
      */
     public function getLocale() {
@@ -410,6 +411,8 @@ class NewsController extends Controller
     }
 
     /**
+     * Return current Source ID for dashboard
+     *
      * @return string|null
      */
     public function getSourceId() {

@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.0.*
+## 1.1.0
+ * Controllers and Views
  * LangSwitcher::widget() for model form
  * Added `supportLocales` module properties
  * Rebased to ActiveRecordML model
