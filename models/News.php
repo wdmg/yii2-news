@@ -39,9 +39,7 @@ class News extends ActiveRecordML
     public $route;
     public $file;
 
-    /**
-     * @var object
-     */
+    public $moduleId = 'news';
     private $_module;
 
     /**
@@ -50,9 +48,6 @@ class News extends ActiveRecordML
     public function init()
     {
         parent::init();
-
-        if (!($this->_module = Yii::$app->getModule('admin/news', false)))
-            $this->_module = Yii::$app->getModule('news', false);
 
         if (isset(Yii::$app->params["news.baseRoute"]))
             $this->baseRoute = Yii::$app->params["news.baseRoute"];
