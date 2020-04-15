@@ -125,13 +125,81 @@ class Module extends BaseModule
     {
         parent::bootstrap($app);
 
-        // Add routes to news in frontend
-        $app->getUrlManager()->addRules([
-            '/<lang:\w+>' . $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
-            $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
-            '/<lang:\w+>' . $this->baseRoute => 'admin/news/default/index',
-            $this->baseRoute => 'admin/news/default/index',
-        ], true);
+        if (!$this->isBackend()) {
+
+            // Get language scheme if available
+            $custom = false;
+            $hide = false;
+            $scheme = null;
+            if (isset(Yii::$app->translations)) {
+                $custom = true;
+                $hide = Yii::$app->translations->module->hideDefaultLang;
+                $scheme = Yii::$app->translations->module->languageScheme;
+            }
+
+            // Add routes for frontend
+            switch ($scheme) {
+                case "after":
+
+                    $app->getUrlManager()->addRules([
+                        $this->baseRoute . '/<alias:[\w-]+>/<lang:\w+>' => 'admin/news/default/view',
+                        $this->baseRoute . '/<lang:\w+>' => 'admin/news/default/index',
+                    ], true);
+
+                    if ($hide) {
+                        $app->getUrlManager()->addRules([
+                            $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+                            $this->baseRoute => 'admin/news/default/index',
+                        ], true);
+                    }
+
+                    break;
+
+                case "query":
+
+                    $app->getUrlManager()->addRules([
+                        $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+                        $this->baseRoute => 'admin/news/default/index',
+                    ], true);
+
+                    /*if ($hide) {
+
+                    }*/
+
+                    break;
+
+                case "subdomain":
+
+                    if ($host = $app->getRequest()->getHostName()) {
+                        $app->getUrlManager()->addRules([
+                            'http(s)?://' . $host. '/' . $this->baseRoute . '/<alias:[\w-]+>' => 'admin/pages/default/view',
+                            'http(s)?://' . $host. '/' . $this->baseRoute => 'admin/pages/default/index',
+                        ], true);
+
+                        /*if ($hide) {
+
+                        }*/
+                    }
+
+                    break;
+
+                default:
+
+                    $app->getUrlManager()->addRules([
+                        '/<lang:\w+>' . $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+                        '/<lang:\w+>' . $this->baseRoute => 'admin/news/default/index',
+                    ], true);
+
+                    if ($hide || !$custom) {
+                        $app->getUrlManager()->addRules([
+                            $this->baseRoute . '/<alias:[\w-]+>' => 'admin/news/default/view',
+                            $this->baseRoute => 'admin/news/default/index',
+                        ], true);
+                    }
+
+                    break;
+            }
+        }
     }
 
 

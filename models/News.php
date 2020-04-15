@@ -49,6 +49,7 @@ class News extends ActiveRecordML
     {
         parent::init();
 
+        $this->_module = self::getModule(true);
         if (isset(Yii::$app->params["news.baseRoute"]))
             $this->baseRoute = Yii::$app->params["news.baseRoute"];
         elseif (isset($this->_module->baseRoute))
