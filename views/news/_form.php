@@ -152,6 +152,7 @@ use wdmg\widgets\LangSwitcher;
                 ).done(function(data) {
                     if (data.alias && form.find('#news-alias').val().length == 0) {
                         form.find('#news-alias').val(data.alias);
+                        form.find('#news-alias').change();
                         form.yiiActiveForm('validateAttribute', 'news-alias');
                     }
                 }).fail(function () {
