@@ -141,7 +141,7 @@ class DefaultController extends Controller
 
         // Throw an exception if a news post with a language locale was requested,
         // which is unavailable or disabled for display in the frontend
-        if (!is_null($lang) && is_null($locale)) {
+        if ((!$draft) && !is_null($lang) && is_null($locale)) {
             throw new NotFoundHttpException(Yii::t('app/modules/news', 'The requested news post does not exist.'));
         }
 

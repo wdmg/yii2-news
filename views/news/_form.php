@@ -1,6 +1,8 @@
 <?php
 
+use wdmg\widgets\AliasInput;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use wdmg\widgets\Editor;
 use wdmg\widgets\SelectInput;
@@ -37,20 +39,17 @@ use wdmg\widgets\LangSwitcher;
         ]
     ]); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    <?php
-        $output = '';
-        if (($postURL = $model->getUrl(true, true)) && $model->id) {
-            $output = Html::a($model->getUrl(true, false), $postURL, [
-                    'target' => '_blank',
-                    'data-pjax' => 0
-                ]);
-        }
 
-        if (!empty($output))
-            echo Html::tag('label', Yii::t('app/modules/news', 'News URL')) . Html::tag('fieldset', $output) . '<br/>';
+    <?= $form->field($model, 'alias')->widget(AliasInput::class, [
+        'labels' => [
+            'edit' => Yii::t('app/modules/news', 'Edit'),
+            'save' => Yii::t('app/modules/news', 'Save')
+        ],
+        'options' => [
+            'baseUrl' => ($model->id) ? $model->url : Url::to($model->getRoute(), true)
+        ]
+    ])->label(Yii::t('app/modules/news', 'News URL')); ?>
 
-    ?>
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 3]) ?>
     <?= $form->field($model, 'content')->widget(Editor::class, [
         'options' => [],
@@ -134,7 +133,7 @@ use wdmg\widgets\LangSwitcher;
     <hr/>
     <div class="form-group">
         <?= Html::a(Yii::t('app/modules/news', '&larr; Back to list'), ['news/index'], ['class' => 'btn btn-default pull-left']) ?>&nbsp;
-        <?= Html::submitButton(Yii::t('app/modules/news', 'Save'), ['class' => 'btn btn-success pull-right']) ?>
+        <?= Html::submitButton(Yii::t('app/modules/news', 'Save'), ['class' => 'btn btn-save btn-success pull-right']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

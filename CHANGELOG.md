@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.1 (2020-04-16)
+ * Added AliasInput::widget()
+ 
 ## 1.1.0 (2020-04-14)
  * Fixed baseRoute
  * Controllers and Views
