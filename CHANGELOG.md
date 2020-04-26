@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.*
+ * Set $app->sourceLanguage by default locale
+ 
 ## 1.1.1 (2020-04-16)
  * Added AliasInput::widget()
  
