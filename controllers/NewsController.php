@@ -119,7 +119,7 @@ class NewsController extends Controller
                         'danger',
                         Yii::t(
                             'app/modules/news',
-                            'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                            'No display language has been set. Source language will be selected: {language}',
                             [
                                 'language' => (isset($languages[Yii::$app->sourceLanguage])) ? $languages[Yii::$app->sourceLanguage] : Yii::$app->sourceLanguage
                             ]
@@ -218,7 +218,7 @@ class NewsController extends Controller
                     'danger',
                     Yii::t(
                         'app/modules/news',
-                        'No display language has been set for this news post. When saving, the current user language will be selected: {language}',
+                        'No display language has been set. Source language will be selected: {language}',
                         [
                             'language' => (isset($languages[Yii::$app->sourceLanguage])) ? $languages[Yii::$app->sourceLanguage] : Yii::$app->sourceLanguage
                         ]
