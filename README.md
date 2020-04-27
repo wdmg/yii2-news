@@ -1,8 +1,8 @@
 [![Yii2](https://img.shields.io/badge/required-Yii2_v2.0.33-blue.svg)](https://packagist.org/packages/yiisoft/yii2)
-[![Github all releases](https://img.shields.io/github/downloads/wdmg/yii2-news/total.svg)](https://GitHub.com/wdmg/yii2-news/releases/)
+[![Downloads](https://img.shields.io/packagist/dt/wdmg/yii2-news.svg)](https://packagist.org/packages/wdmg/yii2-news)
+[![Packagist Version](https://img.shields.io/packagist/v/wdmg/yii2-news.svg)](https://packagist.org/packages/wdmg/yii2-news)
 ![Progress](https://img.shields.io/badge/progress-ready_to_use-green.svg)
 [![GitHub license](https://img.shields.io/github/license/wdmg/yii2-news.svg)](https://github.com/wdmg/yii2-news/blob/master/LICENSE)
-![GitHub release](https://img.shields.io/github/release/wdmg/yii2-news/all.svg)
 
 # Yii2 News
 News module for Yii2
@@ -11,7 +11,8 @@ News module for Yii2
 * PHP 5.6 or higher
 * Yii2 v.2.0.33 and newest
 * [Yii2 Base](https://github.com/wdmg/yii2-base) module (required)
-* [Yii2 Editor](https://github.com/wdmg/yii2-editor) module (required)
+* [Yii2 Translations](https://github.com/wdmg/yii2-translations) module (optionaly)
+* [Yii2 Editor](https://github.com/wdmg/yii2-editor) widget
 * [Yii2 SelectInput](https://github.com/wdmg/yii2-selectinput) widget
 
 # Installation
@@ -64,6 +65,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.2 - Update README.md and dependencies
 * v.1.1.1 - Added AliasInput::widget()
 * v.1.1.0 - Multi-language support
 * v.1.0.10 - Log activity
