@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.*
+ * Added `defaultController` property for module
+ 
 ## 1.1.2 (2020-04-28)
  * Update README.md and dependencies
  * Updating year in copyrights

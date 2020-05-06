@@ -145,11 +145,10 @@ use wdmg\widgets\LangSwitcher;
             if (attribute.name && !attribute.alias && messages.length == 0) {
                 var form = $(event.target);
                 $.ajax({
-                        type: form.attr('method'),
-                        url: form.attr('action'),
-                        data: form.serializeArray(),
-                    }
-                ).done(function(data) {
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serializeArray(),
+                }).done(function(data) {
                     if (data.alias && form.find('#news-alias').val().length == 0) {
                         form.find('#news-alias').val(data.alias);
                         form.find('#news-alias').change();
