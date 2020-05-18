@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.*
+ * URL redirect notify in views
  * Added `defaultController` property for module
  
 ## 1.1.2 (2020-04-28)
