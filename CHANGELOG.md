@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.4 (2020-12-28)
+ * RBAC implementation
+ 
 ## 1.1.3 (2020-06-28)
  * Update dependencies, README.md
  * URL redirect notify in views

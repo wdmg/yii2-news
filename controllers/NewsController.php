@@ -54,7 +54,7 @@ class NewsController extends Controller
         ];
 
         // If auth manager not configured use default access control
-        if(!Yii::$app->authManager) {
+        if (!Yii::$app->authManager) {
             $behaviors['access'] = [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -63,6 +63,20 @@ class NewsController extends Controller
                         'allow' => true
                     ],
                 ]
+            ];
+        } else if ($this->module->moduleExist('admin/rbac')) { // Ok, then we check access according to the rules
+            $behaviors['access'] = [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['update', 'create'],
+                        'roles' => ['updatePosts'],
+                        'allow' => true
+                    ], [
+                        'roles' => ['viewDashboard'],
+                        'allow' => true
+                    ],
+                ],
             ];
         }
 

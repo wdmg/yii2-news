@@ -144,8 +144,13 @@ use wdmg\widgets\LangSwitcher;
     ]); ?>
     <hr/>
     <div class="form-group">
-        <?= Html::a(Yii::t('app/modules/news', '&larr; Back to list'), ['news/index'], ['class' => 'btn btn-default pull-left']) ?>&nbsp;
-        <?= Html::submitButton(Yii::t('app/modules/news', 'Save'), ['class' => 'btn btn-save btn-success pull-right']) ?>
+        <?= Html::a(Yii::t('app/modules/news', '&larr; Back to list'), ['news/index'], ['class' => 'btn btn-default pull-left']) ?>
+        <?php if ((Yii::$app->authManager && $this->context->module->moduleExist('rbac') && Yii::$app->user->can('updatePosts', [
+            'created_by' => $model->created_by,
+            'updated_by' => $model->updated_by
+        ])) || !$model->id) : ?>&nbsp;
+            <?= Html::submitButton(Yii::t('app/modules/news', 'Save'), ['class' => 'btn btn-save btn-success pull-right']) ?>
+        <?php endif; ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>
