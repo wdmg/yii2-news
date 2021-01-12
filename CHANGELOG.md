@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.*
+ * Unit tests
+ 
 ## 1.1.4 (2020-12-28)
  * RBAC implementation
  

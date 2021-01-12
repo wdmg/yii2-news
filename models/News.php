@@ -40,6 +40,8 @@ class News extends ActiveRecordML
     public $file;
 
     public $moduleId = 'news';
+    public $imagePath = "";
+
     private $_module;
 
     /**
@@ -141,7 +143,7 @@ class News extends ActiveRecordML
     }
 
     /**
-     * Build and return image path for image save
+     * Build and return base image path
      *
      * @return string
      */
@@ -149,20 +151,30 @@ class News extends ActiveRecordML
     {
 
         if (isset(Yii::$app->params["news.imagePath"])) {
-            $imagePath = Yii::$app->params["news.imagePath"];
+            $this->imagePath = Yii::$app->params["news.imagePath"];
         } else {
 
             if (!$module = Yii::$app->getModule('admin/news'))
                 $module = Yii::$app->getModule('news');
 
-            $imagePath = $module->imagePath;
+            if (isset($module->imagePath))
+                $this->imagePath = $module->imagePath;
         }
 
         if ($absoluteUrl)
-            return \yii\helpers\Url::to(str_replace('\\', '/', $imagePath), true);
+            return \yii\helpers\Url::to(str_replace('\\', '/', $this->imagePath), true);
         else
-            return $imagePath;
+            return $this->imagePath;
 
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getImage($absoluteUrl = false)
+    {
+        return $this->getImagePath($absoluteUrl) ."/". $this->image;
     }
 
     /**
