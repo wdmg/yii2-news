@@ -76,7 +76,74 @@ class NewsTest extends \Codeception\Test\Unit
         $this->assertEquals($this->tester->getBaseUrl() . '/uploads/news/Test-news3.jpg', $news->getImage(true));
     }
 
-    public function testAddNewPost()
+    public function testValidateRequiredName()
+    {
+        $news = new News([
+            'name' => null,
+            'alias' => 'other-news-test-post',
+            'content' => 'Lorem ipsum dolor sit amet'
+        ]);
+        $news->validate();
+        $this->assertEquals('Name cannot be blank.', $news->getFirstError('name'));
+    }
+
+    public function testValidateRequiredAlias()
+    {
+        $news = new News([
+            'name' => null,
+            'alias' => null,
+            'content' => 'Lorem ipsum dolor sit amet'
+        ]);
+        $news->validate();
+        $this->assertEquals('Alias cannot be blank.', $news->getFirstError('alias'));
+    }
+
+    public function testValidateRequiredContent()
+    {
+        $news = new News([
+            'name' => 'Other news test post',
+            'alias' => 'other-news-test-post',
+            'content' => null
+        ]);
+        $news->validate();
+        $this->assertEquals('News text cannot be blank.', $news->getFirstError('content'));
+    }
+
+    public function testValidateMaxStringLengths()
+    {
+        $news = new News([
+            'name' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
+            'alias' => 'lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit-sed-diam-nonummy-nibh-euismod-tincidunt-ut-laoreet-dolore-magna-aliqua-erat-volutpat',
+            'title' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
+            'excerpt' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
+            'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
+            'keywords' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
+            'image' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
+        ]);
+        $news->validate();
+
+        $this->assertEquals('Name should contain at most 128 characters.', $news->getFirstError('name'));
+        $this->assertEquals('Alias should contain at most 128 characters.', $news->getFirstError('alias'));
+        $this->assertEquals('Title should contain at most 255 characters.', $news->getFirstError('title'));
+        $this->assertEquals('Excerpt should contain at most 255 characters.', $news->getFirstError('excerpt'));
+        $this->assertEquals('Description should contain at most 255 characters.', $news->getFirstError('description'));
+        $this->assertEquals('Keywords should contain at most 255 characters.', $news->getFirstError('keywords'));
+        $this->assertEquals('Image should contain at most 255 characters.', $news->getFirstError('image'));
+
+    }
+
+    public function testValidateMinStringLengths()
+    {
+        $news = new News([
+            'name' => 'Lo',
+            'alias' => 'lo',
+        ]);
+        $news->validate();
+        $this->assertEquals('Name should contain at least 3 characters.', $news->getFirstError('name'));
+        $this->assertEquals('Alias should contain at least 3 characters.', $news->getFirstError('alias'));
+    }
+
+    public function testAttemptAddNewPost()
     {
         $news = new News([
             'id' => 7,
@@ -96,7 +163,7 @@ class NewsTest extends \Codeception\Test\Unit
             'in_amp' => 1,
             'in_sitemap' => 1
         ]);
-        
+
         if ($news->validate()) {
             if ($news->save())
                 $this->assertEquals('other-news-test-post', $news->alias);
