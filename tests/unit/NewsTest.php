@@ -52,6 +52,17 @@ class NewsTest extends \Codeception\Test\Unit
         $this->assertEquals(1, $data->id);
     }
 
+    public function testModuleProperties() {
+        $module = \Yii::$app->getModule('news');
+        $this->assertEquals("news", $module->id, 'Invalid value for module property `ID`');
+        $this->assertEquals("/news", $module->baseRoute, 'Invalid value for module property `baseRoute`');
+        $this->assertEquals("admin/news/default", $module->defaultController, 'Invalid value for module property `defaultController`');
+        $this->assertEquals("@app/views/layouts/main", $module->baseLayout, 'Invalid value for module property `baseLayout`');
+        $this->assertEquals("/uploads/news", $module->imagePath, 'Invalid value for module property `imagePath`');
+        $this->assertEquals(['ru-RU', 'uk-UA', 'en-US'], $module->supportLocales, 'Invalid value for module property `supportLocales`');
+
+    }
+
     public function testGetPostUrl()
     {
         $news = $this->tester->grabFixture('news', 'news2');
@@ -76,37 +87,42 @@ class NewsTest extends \Codeception\Test\Unit
         $this->assertEquals($this->tester->getBaseUrl() . '/uploads/news/Test-news3.jpg', $news->getImage(true));
     }
 
-    public function testValidateRequiredName()
+    public function testValidateRequiredAttributes()
     {
         $news = new News([
             'name' => null,
             'alias' => 'other-news-test-post',
             'content' => 'Lorem ipsum dolor sit amet'
         ]);
-        $news->validate();
-        $this->assertEquals('Name cannot be blank.', $news->getFirstError('name'));
-    }
+        $this->assertFalse($news->validate(), 'validate incorrect `name` attribute');
+        $this->assertArrayHasKey('name', $news->getErrors(), 'Name cannot be blank.');
 
-    public function testValidateRequiredAlias()
-    {
         $news = new News([
             'name' => null,
             'alias' => null,
             'content' => 'Lorem ipsum dolor sit amet'
         ]);
-        $news->validate();
-        $this->assertEquals('Alias cannot be blank.', $news->getFirstError('alias'));
-    }
+        $this->assertFalse($news->validate(), 'validate incorrect `alias` attribute');
+        $this->assertArrayHasKey('alias', $news->getErrors(), 'Alias cannot be blank.');
 
-    public function testValidateRequiredContent()
-    {
         $news = new News([
             'name' => 'Other news test post',
             'alias' => 'other-news-test-post',
             'content' => null
         ]);
-        $news->validate();
-        $this->assertEquals('News text cannot be blank.', $news->getFirstError('content'));
+        $this->assertFalse($news->validate(), 'validate incorrect `content` attribute');
+        $this->assertArrayHasKey('content', $news->getErrors(), 'News text cannot be blank.');
+    }
+
+    public function testValidateMinStringLengths()
+    {
+        $news = new News([
+            'name' => 'Lo',
+            'alias' => 'lo',
+        ]);
+        $this->assertFalse($news->validate(), 'validate incorrect string attributes min lengths');
+        $this->assertArrayHasKey('name', $news->getErrors(), 'Name should contain at least 3 characters.');
+        $this->assertArrayHasKey('alias', $news->getErrors(), 'Alias should contain at least 3 characters.');
     }
 
     public function testValidateMaxStringLengths()
@@ -120,27 +136,15 @@ class NewsTest extends \Codeception\Test\Unit
             'keywords' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
             'image' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.',
         ]);
-        $news->validate();
+        $this->assertFalse($news->validate(), 'validate incorrect string attributes max lengths');
+        $this->assertArrayHasKey('name', $news->getErrors(), 'Name should contain at most 128 characters.');
+        $this->assertArrayHasKey('alias', $news->getErrors(), 'Alias should contain at most 128 characters.');
+        $this->assertArrayHasKey('title', $news->getErrors(), 'Title should contain at most 255 characters.');
+        $this->assertArrayHasKey('excerpt', $news->getErrors(), 'Excerpt should contain at most 255 characters.');
+        $this->assertArrayHasKey('description', $news->getErrors(), 'Description should contain at most 255 characters.');
+        $this->assertArrayHasKey('keywords', $news->getErrors(), 'Keywords should contain at most 255 characters.');
+        $this->assertArrayHasKey('image', $news->getErrors(), 'Image should contain at most 255 characters.');
 
-        $this->assertEquals('Name should contain at most 128 characters.', $news->getFirstError('name'));
-        $this->assertEquals('Alias should contain at most 128 characters.', $news->getFirstError('alias'));
-        $this->assertEquals('Title should contain at most 255 characters.', $news->getFirstError('title'));
-        $this->assertEquals('Excerpt should contain at most 255 characters.', $news->getFirstError('excerpt'));
-        $this->assertEquals('Description should contain at most 255 characters.', $news->getFirstError('description'));
-        $this->assertEquals('Keywords should contain at most 255 characters.', $news->getFirstError('keywords'));
-        $this->assertEquals('Image should contain at most 255 characters.', $news->getFirstError('image'));
-
-    }
-
-    public function testValidateMinStringLengths()
-    {
-        $news = new News([
-            'name' => 'Lo',
-            'alias' => 'lo',
-        ]);
-        $news->validate();
-        $this->assertEquals('Name should contain at least 3 characters.', $news->getFirstError('name'));
-        $this->assertEquals('Alias should contain at least 3 characters.', $news->getFirstError('alias'));
     }
 
     public function testAttemptAddNewPost()
