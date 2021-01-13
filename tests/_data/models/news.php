@@ -17,11 +17,7 @@ return [
         'in_turbo' => 1,
         'in_rss' => 1,
         'in_amp' => 1,
-        'in_sitemap' => 1,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 11:45:28',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 11:45:28',
+        'in_sitemap' => 1
     ],
     'news2' => [
         'id' => 2,
@@ -39,11 +35,7 @@ return [
         'in_turbo' => 0,
         'in_rss' => 0,
         'in_amp' => 0,
-        'in_sitemap' => 0,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 11:50:57',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 11:50:57',
+        'in_sitemap' => 0
     ],
     'news3' => [
         'id' => 3,
@@ -61,11 +53,7 @@ return [
         'in_turbo' => 1,
         'in_rss' => 1,
         'in_amp' => 1,
-        'in_sitemap' => 1,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 12:12:43',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 12:12:43',
+        'in_sitemap' => 1
     ],
     'news4' => [
         'id' => 4,
@@ -83,11 +71,7 @@ return [
         'in_turbo' => 1,
         'in_rss' => 1,
         'in_amp' => 1,
-        'in_sitemap' => 1,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 12:25:21',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 12:25:21',
+        'in_sitemap' => 1
     ],
     'news5' => [
         'id' => 5,
@@ -105,11 +89,7 @@ return [
         'in_turbo' => 1,
         'in_rss' => 1,
         'in_amp' => 1,
-        'in_sitemap' => 1,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 12:36:51',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 12:36:51',
+        'in_sitemap' => 1
     ],
     'news6' => [
         'id' => 6,
@@ -127,10 +107,6 @@ return [
         'in_turbo' => 1,
         'in_rss' => 1,
         'in_amp' => 1,
-        'in_sitemap' => 1,
-        'created_by' => 100,
-        'created_at' => '2021-01-10 12:47:24',
-        'updated_by' => 100,
-        'updated_at' => '2021-01-10 12:47:24',
+        'in_sitemap' => 1
     ],
 ];

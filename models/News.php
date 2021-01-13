@@ -40,7 +40,7 @@ class News extends ActiveRecordML
     public $file;
 
     public $moduleId = 'news';
-    public $imagePath = "";
+    public $imagePath;
 
     private $_module;
 

@@ -6,5 +6,13 @@ namespace Helper;
 
 class Functional extends \Codeception\Module
 {
+    public function getModules()
+    {
+        return $this->getModule('Yii2')->getModules();
+    }
 
+    public function getBaseUrl()
+    {
+        return $this->getModule('Yii2')->_getUrl();
+    }
 }

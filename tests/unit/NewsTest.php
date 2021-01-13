@@ -2,7 +2,9 @@
 
 namespace wdmg\news\tests\unit;
 
+use wdmg\news\models\News;
 use wdmg\news\tests\fixtures\NewsFixture;
+use wdmg\news\tests\fixtures\LangFixture;
 
 class NewsTest extends \Codeception\Test\Unit
 {
@@ -12,16 +14,32 @@ class NewsTest extends \Codeception\Test\Unit
     protected $tester;
 
     public function _fixtures() {
-        return [
-            'news' => [
-                'class' => NewsFixture::className(),
-                'dataFile' => codecept_data_dir() . 'models/news.php'
-            ]
+        if (class_exists('\wdmg\translations\models\Languages')) {
+            $fixtures['languages'] = [
+                'class' => LangFixture::className(),
+                'dataFile' => codecept_data_dir() . 'models/languages.php'
+            ];
+        }
+
+        $fixtures['news'] = [
+            'class' => NewsFixture::className(),
+            'dataFile' => codecept_data_dir() . 'models/news.php'
         ];
+
+        return $fixtures;
     }
 
     protected function _before()
     {
+        if (class_exists('\wdmg\translations\models\Languages')) {
+            \Yii::$app->setModule('translations', [
+                'wdmg\translations\Module'
+            ]);
+        }
+
+        \Yii::$app->setModule('news', [
+            'class' => 'wdmg\news\Module'
+        ]);
     }
 
     protected function _after()
@@ -34,21 +52,59 @@ class NewsTest extends \Codeception\Test\Unit
         $this->assertEquals(1, $data->id);
     }
 
-    public function testGetNewsPostUrl()
+    public function testGetPostUrl()
     {
         $news = $this->tester->grabFixture('news', 'news2');
-        expect($news->getPostUrl())->equals('/some-test-news-2');
+        $this->assertEquals('/some-test-news-2', $news->getPostUrl());
     }
 
     public function testGetPublicUrl()
     {
         $news = $this->tester->grabFixture('news', 'news3');
-        expect($news->url)->equals('/some-test-news-3');
+        $this->assertEquals('/some-test-news-3', $news->url);
     }
 
-    public function testGetNewsImagePath()
+    public function testGetImagePath()
     {
         $news = $this->tester->grabFixture('news', 'news3');
-        expect($news->getImage())->equals('/Test-news3.jpg');
+        $this->assertEquals('/uploads/news/Test-news3.jpg', $news->getImage());
     }
+
+    public function testGetImageAbsolutePath()
+    {
+        $news = $this->tester->grabFixture('news', 'news3');
+        $this->assertEquals($this->tester->getBaseUrl() . '/uploads/news/Test-news3.jpg', $news->getImage(true));
+    }
+
+    public function testAddNewPost()
+    {
+        $news = new News([
+            'id' => 7,
+            'source_id' => 2,
+            'name' => 'Other news test post',
+            'alias' => null,
+            'image' => null,
+            'excerpt' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
+            'content' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.',
+            'title' => 'Other news headline',
+            'description' => 'A short description of new test post',
+            'keywords' => 'test, news, other',
+            'status' => 1,
+            'locale' => 'en-US',
+            'in_turbo' => 1,
+            'in_rss' => 1,
+            'in_amp' => 1,
+            'in_sitemap' => 1
+        ]);
+        
+        if ($news->validate()) {
+            if ($news->save())
+                $this->assertEquals('other-news-test-post', $news->alias);
+            else
+                $this->fail('Model save failed.');
+        } else {
+            $this->fail($news->errors);
+        }
+    }
+
 }
