@@ -20,6 +20,9 @@ class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
+    /**
+     * Define custom actions here
+     */
     public function amOnPageRoute(array $route)
     {
         $this->amOnPage(\yii\helpers\Url::toRoute($route));

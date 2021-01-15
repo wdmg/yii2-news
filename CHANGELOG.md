@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.*
+ * Acceptance tests
  * Unit tests
  
 ## 1.1.4 (2020-12-28)

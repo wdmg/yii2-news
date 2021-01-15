@@ -36,6 +36,7 @@
     "require-dev": {
         "yiisoft/yii2-codeception": "~2.0.0",
         "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-webdriver": "^1.1",
         "codeception/module-asserts": "^1.0.0"
     },
     "minimum-stability": "dev",

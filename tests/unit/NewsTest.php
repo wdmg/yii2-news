@@ -65,14 +65,16 @@ class NewsTest extends \Codeception\Test\Unit
 
     public function testGetPostUrl()
     {
+        $module = \Yii::$app->getModule('news');
         $news = $this->tester->grabFixture('news', 'news2');
-        $this->assertEquals('/some-test-news-2', $news->getPostUrl());
+        $this->assertEquals($module->baseRoute . '/some-test-news-2', $news->getPostUrl());
     }
 
     public function testGetPublicUrl()
     {
+        $module = \Yii::$app->getModule('news');
         $news = $this->tester->grabFixture('news', 'news3');
-        $this->assertEquals('/some-test-news-3', $news->url);
+        $this->assertEquals($module->baseRoute . '/some-test-news-3', $news->url);
     }
 
     public function testGetImagePath()
@@ -83,8 +85,9 @@ class NewsTest extends \Codeception\Test\Unit
 
     public function testGetImageAbsolutePath()
     {
+        $module = \Yii::$app->getModule('news');
         $news = $this->tester->grabFixture('news', 'news3');
-        $this->assertEquals($this->tester->getBaseUrl() . '/uploads/news/Test-news3.jpg', $news->getImage(true));
+        $this->assertEquals($this->tester->getBaseUrl() . $module->imagePath . '/Test-news3.jpg', $news->getImage(true));
     }
 
     public function testValidateRequiredAttributes()

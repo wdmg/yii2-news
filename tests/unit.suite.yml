@@ -8,5 +8,6 @@ modules:
         - Asserts
         - \Helper\Unit
         - Yii2:
-              part: [orm, email, fixtures]
+              part: [orm, fixtures]
+              cleanup: true
     step_decorators: ~        
