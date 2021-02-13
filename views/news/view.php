@@ -29,6 +29,9 @@ if ($model->locale && isset(Yii::$app->translations) && class_exists('\wdmg\tran
             [
                 'attribute' => 'name',
                 'format' => 'raw',
+                'contentOptions' => [
+                    'lang' => ($model->locale ?? Yii::$app->language)
+                ],
                 'value' => function($model) {
                     $output = Html::tag('strong', $model->name);
                     if (($postURL = $model->getModelUrl(true, true)) && $model->id) {
@@ -69,16 +72,35 @@ if ($model->locale && isset(Yii::$app->translations) && class_exists('\wdmg\tran
                     }
                 }
             ],
-            'title:ntext',
+            [
+                'attribute' => 'title',
+                'format' => 'ntext',
+                'contentOptions' => [
+                    'lang' => ($model->locale ?? Yii::$app->language)
+                ]
+            ],
             [
                 'attribute' => 'content',
                 'format' => 'html',
                 'contentOptions' => [
+                    'lang' => ($model->locale ?? Yii::$app->language),
                     'style' => 'display:inline-block;max-height:360px;overflow-x:auto;'
                 ]
             ],
-            'description:ntext',
-            'keywords:ntext',
+            [
+                'attribute' => 'description',
+                'format' => 'ntext',
+                'contentOptions' => [
+                    'lang' => ($model->locale ?? Yii::$app->language)
+                ]
+            ],
+            [
+                'attribute' => 'keywords',
+                'format' => 'ntext',
+                'contentOptions' => [
+                    'lang' => ($model->locale ?? Yii::$app->language)
+                ]
+            ],
             [
                 'attribute' => 'common',
                 'label' => Yii::t('app/modules/news','Common'),

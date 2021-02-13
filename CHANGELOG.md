@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.*
+ * Lang attribute for HTML tags and inputs
  * Acceptance tests
  * Unit tests
  

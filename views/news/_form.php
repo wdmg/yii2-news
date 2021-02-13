@@ -38,7 +38,7 @@ use wdmg\widgets\LangSwitcher;
             'enctype' => 'multipart/form-data'
         ]
     ]); ?>
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'lang' => ($model->locale ?? Yii::$app->language)]) ?>
 
     <?= $form->field($model, 'alias')->widget(AliasInput::class, [
         'labels' => [
@@ -62,9 +62,11 @@ use wdmg\widgets\LangSwitcher;
         }
     ?>
 
-    <?= $form->field($model, 'excerpt')->textarea(['rows' => 3]) ?>
+    <?= $form->field($model, 'excerpt')->textarea(['rows' => 3, 'lang' => ($model->locale ?? Yii::$app->language)]) ?>
     <?= $form->field($model, 'content')->widget(Editor::class, [
-        'options' => [],
+        'options' => [
+            'lang' => ($model->locale ?? Yii::$app->language)
+        ],
         'pluginOptions' => []
     ]) ?>
 
@@ -89,9 +91,9 @@ use wdmg\widgets\LangSwitcher;
         </div>
         <div id="newsMetaTags" class="panel-collapse collapse">
             <div class="panel-body">
-                <?= $form->field($model, 'title')->textInput() ?>
-                <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
-                <?= $form->field($model, 'keywords')->textarea(['rows' => 3]) ?>
+                <?= $form->field($model, 'title')->textInput(['lang' => ($model->locale ?? Yii::$app->language)]) ?>
+                <?= $form->field($model, 'description')->textarea(['rows' => 3, 'lang' => ($model->locale ?? Yii::$app->language)]) ?>
+                <?= $form->field($model, 'keywords')->textarea(['rows' => 3, 'lang' => ($model->locale ?? Yii::$app->language)]) ?>
             </div>
         </div>
     </div>
