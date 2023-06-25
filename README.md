@@ -73,14 +73,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.2.0.0 - Some fix, update copyrights
 * v.1.1.4 - RBAC implementation
 * v.1.1.3 - URL redirect notify, defaultController property, update dependencies and README.md
 * v.1.1.2 - Update README.md and dependencies
-* v.1.1.1 - Added AliasInput::widget()
-* v.1.1.0 - Multi-language support
-* v.1.0.10 - Log activity
-* v.1.0.9 - Added pagination, up to date dependencies
-* v.1.0.8 - Refactoring. Migrations bugfix
-* v.1.0.7 - Image save bugfix
-* v.1.0.6 - Added support for RSS-feed, Yandex.Turbo and Google AMP modules
-* v.1.0.5 - Added support for Sitemap module

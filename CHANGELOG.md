@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.1.*
+## 2.0.0 (2023-06-25)
+ * Some fix, update copyrights
  * Lang attribute for HTML tags and inputs
  * Acceptance tests
  * Unit tests
