@@ -9,7 +9,7 @@
     ],
     "type": "yii2-extension",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "homepage": "https://github.com/wdmg/yii2-news",
     "support": {
         "source": "https://github.com/wdmg/yii2-news",

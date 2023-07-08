@@ -56,15 +56,24 @@ class m190730_020217_news extends Migration
         // If exist module `Users` set foreign key `created_by`, `updated_by` to `users.id`
         if (class_exists('\wdmg\users\models\Users')) {
             $userTable = \wdmg\users\models\Users::tableName();
-            $this->addForeignKey(
-                'fk_news_to_users',
-                '{{%news}}',
-                'created_by, updated_by',
-                $userTable,
-                'id',
-                'NO ACTION',
-                'CASCADE'
-            );
+	        $this->addForeignKey(
+		        'fk_news_to_users1',
+		        '{{%news}}',
+		        'created_by',
+		        $userTable,
+		        'id',
+		        'NO ACTION',
+		        'CASCADE'
+	        );
+	        $this->addForeignKey(
+		        'fk_news_to_users2',
+		        '{{%news}}',
+		        'updated_by',
+		        $userTable,
+		        'id',
+		        'NO ACTION',
+		        'CASCADE'
+	        );
         }
 
     }
@@ -82,10 +91,14 @@ class m190730_020217_news extends Migration
         if(class_exists('\wdmg\users\models\Users') && isset(Yii::$app->modules['users'])) {
             $userTable = \wdmg\users\models\Users::tableName();
             if (!(Yii::$app->db->getTableSchema($userTable, true) === null)) {
-                $this->dropForeignKey(
-                    'fk_news_to_users',
-                    '{{%news}}'
-                );
+	            $this->dropForeignKey(
+		            'fk_news_to_users1',
+		            '{{%news}}'
+	            );
+	            $this->dropForeignKey(
+		            'fk_news_to_users2',
+		            '{{%news}}'
+	            );
             }
         }
 

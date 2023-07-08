@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 2.0.1 (2023-07-08)
+ * Fix FK in migrations
+
 ## 2.0.0 (2023-06-25)
  * Some fix, update copyrights
  * Lang attribute for HTML tags and inputs
